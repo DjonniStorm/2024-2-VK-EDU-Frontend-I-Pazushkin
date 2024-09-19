@@ -13,13 +13,13 @@
  */
 
 export function convertBytesToHuman(bytes) {
-  if (!Number.isFinite(bytes) || bytes < 0 ) {
+  if (!Number.isFinite(bytes) || bytes < 0) {
     return false;
   }
 
   const units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB' , 'YB'];
 
-  for (let i = 0; i <= units.length; ++i, bytes /= 1024) {
+  for (let i = 0; i < units.length; ++i, bytes /= 1024) {
     if (bytes / 1024 < 1) {
       return `${parseFloat(bytes.toFixed(2))} ${units[i]}`;
     }

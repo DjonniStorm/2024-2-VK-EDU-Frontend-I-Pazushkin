@@ -26,7 +26,7 @@ nonUniqueElements([10, 9, 10, 10, 9, 8]) == [10, 9, 10, 10, 9]
 
 export function nonUniqueElements(data) {
   const freq = {};
-  data.forEach(elem => {
+  data.forEach((elem) => {
     if (freq[elem]) {
       freq[elem] = parseInt(freq[elem]) + 1;
       return;
