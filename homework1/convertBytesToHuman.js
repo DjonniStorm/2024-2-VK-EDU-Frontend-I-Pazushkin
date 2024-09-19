@@ -13,19 +13,15 @@
  */
 
 export function convertBytesToHuman(bytes) {
-  if (typeof bytes !== 'number' || parseInt(bytes) < 0 || !isFinite(bytes)) {
+  if (!Number.isFinite(bytes) || bytes < 0 ) {
     return false;
   }
-  let byte = parseInt(bytes);
 
   const units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB' , 'YB'];
 
-  for ( let i = 0; i <= units.length; ) {
-    if (byte / 1024 >= 1) {
-      byte /= 1024;
-      ++i;
-      continue;
+  for (let i = 0; i <= units.length; ++i, bytes /= 1024) {
+    if (bytes / 1024 < 1) {
+      return `${parseFloat(bytes.toFixed(2))} ${units[i]}`;
     }
-    return `${parseFloat(byte.toFixed(2))} ${units[i]}`;
   }
 }
