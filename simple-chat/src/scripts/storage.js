@@ -10,7 +10,6 @@ export function saveToLocalStorage(message) {
         };
         if (savedMessages) {
             const messages = JSON.parse(savedMessages);
-            console.log(messages, 'array');
             messages.push(messageToSave);
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(messages));
             return;
