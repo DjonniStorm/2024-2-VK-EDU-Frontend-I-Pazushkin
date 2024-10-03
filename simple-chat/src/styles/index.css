@@ -85,20 +85,6 @@ body {
     position: relative;
 }
 
-.sent-message::after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background: var(--sent-message);
-    position: absolute;
-    right: -6px;
-    bottom: -1px;
-    border-right: 1px solid var(--black-color);
-    border-bottom: 1px solid var(--black-color);
-    transform: skewX(30deg);
-    transform-origin: bottom right;
-}
-
 .received-message {
     align-self: flex-start;
     background-color: var(--received-message);

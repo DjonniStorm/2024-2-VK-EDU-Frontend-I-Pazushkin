@@ -1,5 +1,5 @@
 import { getFromLocalStorage, saveToLocalStorage } from './storage';
-import { messages, input, form } from './elements';
+import { messages, input, form, user } from './elements';
 import '../styles/index.css';
 
 document.addEventListener('DOMContentLoaded', renderMessages);
@@ -29,8 +29,11 @@ function renderMessages() {
     messages.innerHTML = '';
     storedMessages.forEach(elem => {
       const messageDiv = document.createElement('div');
-
-      messageDiv.classList.add('message', 'sent-message');
+      let classList = 'sent-message';
+      if (elem.from !== user) {
+        classList = 'received-message';
+      }
+      messageDiv.classList.add('message', classList);
 
       const messageSender = document.createElement('p'),
         messageText = document.createElement('p'),
