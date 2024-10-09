@@ -9,26 +9,35 @@
     />
   </head>
   <body>
-    <div id="chat">
+    <div id="contacts">
+      <div class="contacts__header">
+        <button class="button header-button">
+          <span class="material-symbols-outlined"> menu </span>
+        </button>
+        <h3 class="contacts__header-username"></h3>
+        <button class="button header-button">
+          <span class="material-symbols-outlined"> search </span>
+        </button>
+      </div>
+    </div>
+    <div id="chat" style="display: none">
       <div class="chat__header">
         <div class="chat__header-transition">
-          <button class="button chat__header-button">
+          <button class="button header-button">
             <span class="material-symbols-outlined">arrow_back</span>
           </button>
           <div class="chat__header-info">
             <span class="material-symbols-outlined">account_circle</span>
             <div class="chat__header-info-status">
-              <h3>
-                VK Education // Frontend-разработка: fullstack / 2 // Осень 2024
-              </h3>
+              <h3 class="chat__contact"></h3>
             </div>
           </div>
         </div>
         <div class="chat__header-tools">
-          <button class="button chat__header-button">
+          <button class="button header-button">
             <span class="material-symbols-outlined">search</span>
           </button>
-          <button class="button chat__header-button">
+          <button class="button header-button">
             <span class="material-symbols-outlined">more_vert</span>
           </button>
         </div>

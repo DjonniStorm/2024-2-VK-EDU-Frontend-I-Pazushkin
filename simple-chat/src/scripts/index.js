@@ -1,8 +1,13 @@
+import { chatUserName, messages, input, form, user } from './elements';
 import { getFromLocalStorage, saveToLocalStorage } from './storage';
-import { messages, input, form, user } from './elements';
 import '../styles/index.css';
+import '../styles/personal-chat.css';
+import '../styles/contacts-list.css';
 
-document.addEventListener('DOMContentLoaded', renderMessages);
+document.addEventListener('DOMContentLoaded', () => {
+  renderMessages();
+  chatUserName.innerText = user.trim() ? user : '👨🏻‍💻';
+});
 form.addEventListener('submit', handleSubmit);
 form.addEventListener('keypress', handleKeyPress);
 
@@ -29,10 +34,13 @@ function renderMessages() {
     messages.innerHTML = '';
     storedMessages.forEach(elem => {
       const messageDiv = document.createElement('div');
+
       let classList = 'sent-message';
+
       if (elem.from !== user) {
         classList = 'received-message';
       }
+
       messageDiv.classList.add('message', classList);
 
       const messageSender = document.createElement('p'),
