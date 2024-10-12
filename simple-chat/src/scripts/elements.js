@@ -11,3 +11,7 @@ export const user = prompt('Введите имя пользователя');
 export const chatUserName = document.querySelector(
   '.contacts__header-username',
 );
+
+import { Storage } from '../entities/Storage';
+
+export const chatStorage = new Storage();
