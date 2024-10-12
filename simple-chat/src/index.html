@@ -9,7 +9,7 @@
     />
   </head>
   <body>
-    <div id="contacts" style="display: none">
+    <div id="contacts">
       <div class="contacts__header">
         <button class="button header-button">
           <span class="material-symbols-outlined"> menu </span>
@@ -19,8 +19,22 @@
           <span class="material-symbols-outlined"> search </span>
         </button>
       </div>
+      <div class="contacts__list">
+        <div class="contacts__list-contact">
+          <div class="contacts__list-contact-logo">Лого</div>
+          <div class="contacts__list-contact-info">
+            <h3 class="contact__name">Дженнифер Эшли</h3>
+            <div class="contact__last-msg">
+              <div class="contact__last-msg-text">Привет</div>
+              <div class="contact__last-msg-time">17:25</div>
+            </div>
+        </div>
+      </div>
+      <button class="contacts__create-contact-btn" aria-label="Создать Новый Чат" title="Создать Новый Чат">
+        <span class="material-symbols-outlined"> edit </span>
+      </button>
     </div>
-    <div id="chat">
+    <div id="chat" style="display: none">
       <div class="chat__header">
         <div class="chat__header-transition">
           <button class="button header-button">

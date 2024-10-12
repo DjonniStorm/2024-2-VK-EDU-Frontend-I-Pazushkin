@@ -17,3 +17,59 @@
     justify-content: space-around;
     align-items: center;
 }
+
+.contacts__header-username {
+    flex-grow: 1;
+}
+
+.contacts__list-contact {
+    display: flex;
+    padding: 1em;
+    align-items: center;
+}
+
+.contacts__list-contact:hover {
+    background-color: var(--black-transparent-color);
+}
+
+.contacts__list-contact-info {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 2em;
+    flex-direction: column;
+    border-bottom: 2px solid var(--black-transparent-color);
+}
+
+.contact__last-msg {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contacts__create-contact-btn {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 80px;
+    aspect-ratio: 1 / 1;
+    background-color: #FFD54F;
+    color: #756124;
+    border-radius: 50%;
+    border: 2px solid black;
+
+    box-shadow: 2px 2px 2px 0 black;
+}
+
+.contacts__create-contact-btn span {
+    font-size: 38px;
+}
+
+.contacts__create-contact-btn .material-symbols-outlined:hover {
+    transform: scale(1.02);
+}
+
+.contacts__create-contact-btn:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 1px black;
+    transform: scale(1.02);
+}

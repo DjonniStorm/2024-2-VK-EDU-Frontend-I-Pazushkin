@@ -4,14 +4,12 @@ export const input = document.querySelector('.chat__form-input');
 
 export const messages = document.querySelector('.chat__messages-layout');
 
-export const LOCAL_STORAGE_KEY = 'chat-messages';
-
-export const user = prompt('Введите имя пользователя');
-
 export const chatUserName = document.querySelector(
   '.contacts__header-username',
 );
 
-import { Storage } from '../entities/Storage';
+export const buttonCreate = document.querySelector(
+  '.contacts__create-contact-btn',
+);
 
-export const chatStorage = new Storage();
+export const chatsLayout = document.querySelector('.contacts__list');

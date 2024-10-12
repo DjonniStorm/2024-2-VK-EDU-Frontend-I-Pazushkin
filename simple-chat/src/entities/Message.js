@@ -1,5 +1,5 @@
 export class Message {
-  constructor(text, date, from, to, classList = 'receivedMessage') {
+  constructor(text, date, from, to, classList) {
     this._text = text;
     this._date = date;
     this._from = from;
@@ -26,5 +26,11 @@ export class Message {
     });
 
     return messageDiv;
+  }
+  get messageTime() {
+    return this._date;
+  }
+  get messageText() {
+    return this._text;
   }
 }

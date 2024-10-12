@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEY } from './elements';
+import { LOCAL_STORAGE_KEY } from './globals';
 
 export function saveToLocalStorage(storage) {
   try {
@@ -16,11 +16,11 @@ export function saveToLocalStorage(storage) {
       map.set(key, value);
     });
 
-    return map;
+    return;
   } catch (e) {
     console.warn(e);
 
-    return storage;
+    return;
   }
 }
 
