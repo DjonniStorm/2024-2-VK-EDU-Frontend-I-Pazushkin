@@ -160,6 +160,12 @@
     box-shadow: 2px 2px 2px 1px black;
     transform: scale(1.02);
 }
+
+.contacts__list-contact-logo {
+    min-width: 60px;
+    min-height: 60px;
+    border-radius: 50%;
+}
 /* 
     Общие и переиспользуемые стили
 */
@@ -204,6 +210,8 @@ body {
     color: var(--white-color);
 }
 
-.none {
+div.contacts.none,
+div.chat.none,
+div.incorrect.none {
     display: none;
 }
