@@ -13,3 +13,5 @@ export const buttonCreate = document.querySelector(
 );
 
 export const chatsLayout = document.querySelector('.contacts__list');
+
+export const incorrect = document.getElementById('incorrect');

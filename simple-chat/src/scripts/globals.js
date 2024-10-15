@@ -1,7 +1,9 @@
 import { Storage } from '../entities/Storage';
 
-export const chatStorage = new Storage();
+export const user = 'Илья';
 
 export const LOCAL_STORAGE_KEY = 'chat-messages';
 
-export const user = prompt('Введите имя пользователя');
+export const QUERY_CHAT = 'chatID';
+
+export const chatStorage = new Storage();

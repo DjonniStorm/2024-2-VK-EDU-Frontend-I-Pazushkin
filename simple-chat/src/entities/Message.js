@@ -1,15 +1,14 @@
 export class Message {
-  constructor(text, date, from, to, classList) {
+  constructor(text, date, from, to) {
     this._text = text;
     this._date = date;
     this._from = from;
     this._to = to;
-    this._classList = classList;
   }
-  render() {
+  render(classList = '.received-message') {
     const messageDiv = document.createElement('div');
 
-    messageDiv.classList.add('message', this._classList);
+    messageDiv.classList.add('message', classList);
 
     const messageSender = document.createElement('p'),
       messageText = document.createElement('p'),
