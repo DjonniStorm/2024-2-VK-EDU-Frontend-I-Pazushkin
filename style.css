@@ -1,51 +1,4 @@
 /* 
-    Общие и переиспользуемые стили
-*/
-
-html {
-    box-sizing: border-box;
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-    margin: 0;
-    padding: 0;
-}
-
-:root {
-    --purple-color: #8E24AA;
-    --black-color: rgba(0, 0, 0, 0.87);
-    --black-transparent-color: rgba(0, 0, 0, 0.08);
-    --white-color: #FFF;
-    --sent-message: #F3E5F5;
-    --received-message: #FFF;
-}
-
-body {
-    font-size: 15px;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    line-height: 20px;
-}
-
-.button {
-    background: none;
-    border: none;
-    background-color: none;
-    font-size: 40px;
-    padding: 5px;
-}
-
-.header-button {
-    color: var(--white-color);
-}
-
-.none {
-    display: none;
-}
-/* 
     Стили персонального чата
 */
 
@@ -206,4 +159,51 @@ body {
     cursor: pointer;
     box-shadow: 2px 2px 2px 1px black;
     transform: scale(1.02);
+}
+/* 
+    Общие и переиспользуемые стили
+*/
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --purple-color: #8E24AA;
+    --black-color: rgba(0, 0, 0, 0.87);
+    --black-transparent-color: rgba(0, 0, 0, 0.08);
+    --white-color: #FFF;
+    --sent-message: #F3E5F5;
+    --received-message: #FFF;
+}
+
+body {
+    font-size: 15px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.button {
+    background: none;
+    border: none;
+    background-color: none;
+    font-size: 40px;
+    padding: 5px;
+}
+
+.header-button {
+    color: var(--white-color);
+}
+
+.none {
+    display: none;
 }
