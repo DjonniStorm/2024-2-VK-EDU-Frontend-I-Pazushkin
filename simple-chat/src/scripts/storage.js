@@ -6,10 +6,13 @@ export function saveBuffer() {
   const data = getFromLocalStorage();
 
   if (!data) {
-    saveToLocalStorage({
-      chats: Array.from(chatStorage.stringify()),
+    const data = {
+      lastChat: chatStorage.chatName,
       buffer: chatStorage.buffer,
-    });
+      chats: {},
+    };
+    Object.assign(data.chats, chatStorage.stringify());
+    saveToLocalStorage(data);
 
     return;
   }
@@ -20,14 +23,13 @@ export function saveBuffer() {
 }
 
 export function saveData() {
-  const key = chatStorage.chatName;
-
-  saveToLocalStorage({
-    chats: {
-      key: chatStorage.stringify(),
-    },
+  const data = {
+    lastChat: chatStorage.chatName,
     buffer: chatStorage.buffer,
-  });
+    chats: {},
+  };
+  Object.assign(data.chats, chatStorage.stringify());
+  saveToLocalStorage(data);
 }
 
 export function loadBuffer() {
@@ -37,6 +39,7 @@ export function loadBuffer() {
     saveData();
   }
 
+  chatStorage.chatName = data.lastChat;
   chatStorage.buffer = data.buffer;
 
   if (data.buffer.length > 3) {
@@ -56,6 +59,15 @@ export function loadData() {
   }
 
   console.log(data);
-  console.log(data.chats[chatStorage.chatName]);
-  chatStorage.updateFromObject(data.chats[chatStorage.chatName]);
+  console.log('чаты', data.chats);
+
+  if (data.buffer) {
+    chatStorage.buffer = data.buffer;
+  }
+
+  if (data.lastChat) {
+    chatStorage.chatName = data.lastChat;
+  }
+
+  chatStorage.updateFromObject(data.chats);
 }

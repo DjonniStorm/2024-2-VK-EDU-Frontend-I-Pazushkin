@@ -10,8 +10,29 @@ export class Storage {
     this._chatKey = '';
   }
 
+  *getMessages() {
+    console.log(this._buffer);
+
+    for (const chat of this._buffer) {
+      console.log(chat);
+      yield chat;
+    }
+    if (!this._storage.get(this._chatKey)) {
+      return;
+    }
+    console.log(this._storage.get(this._chatKey));
+    for (const message of this._storage.get(this._chatKey)) {
+      yield message;
+    }
+  }
+
   saveBuffer() {
+    console.log('chat-key', this._chatKey);
+    console.log('chat-key2', this._storage.get(this._chatKey));
+
     const prev = this._storage.get(this._chatKey);
+
+    this._storage.delete(this._chatKey);
 
     this._buffer.forEach(elem => prev.push(elem));
 
@@ -20,13 +41,10 @@ export class Storage {
     this._buffer = [];
   }
 
-  *getMessages() {
-    for (const chat of this._buffer) {
-      yield chat;
-    }
-
-    for (const message of this._storage.get(this._chatKey)) {
-      yield message;
+  updateFromObject(obj) {
+    for (const [key, value] of Object.entries(obj)) {
+      console.log('upd', key, value);
+      this._storage.set(key, value);
     }
   }
 
@@ -35,6 +53,7 @@ export class Storage {
 
     for (const [key, value] of this._storage.entries()) {
       map[key] = value;
+      console.log(key, value);
     }
 
     return map;
@@ -44,17 +63,12 @@ export class Storage {
     this._buffer.push(
       new Message(text, this._date.toLocaleTimeString().substring(0, 5), user),
     );
-  }
-
-  updateFromObject(obj) {
-    for (const [key, value] of Object.entries(obj)) {
-      this._storage.set(key, value);
-    }
+    console.log('values', this._storage);
   }
 
   *getChats() {
-    for (const chat of this._storage.entries()) {
-      yield chat;
+    for (const [key, value] of this._storage) {
+      yield [key, value];
     }
   }
 
@@ -70,6 +84,10 @@ export class Storage {
   set buffer(value) {
     console.log('buffer value', value);
     this._buffer = value;
+  }
+
+  set chatName(value) {
+    this._chatKey = value;
   }
 
   get chatName() {

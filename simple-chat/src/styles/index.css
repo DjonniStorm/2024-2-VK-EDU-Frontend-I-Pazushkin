@@ -42,6 +42,8 @@ body {
     color: var(--white-color);
 }
 
-.none {
+div.contacts.none,
+div.chat.none,
+div.incorrect.none {
     display: none;
 }

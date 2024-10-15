@@ -14,4 +14,10 @@ export const buttonCreate = document.querySelector(
 
 export const chatsLayout = document.querySelector('.contacts__list');
 
-export const incorrect = document.getElementById('incorrect');
+export const incorrect = document.querySelector('.incorrect');
+
+export const contactsPage = document.querySelector('.contacts');
+
+export const chatPage = document.querySelector('.chat');
+
+export const backToChatList = document.querySelector('.chats-back');
