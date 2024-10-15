@@ -1,40 +1,61 @@
-import { saveToLocalStorage, getFromLocalStorage } from './localStorage';
-import { chatStorage, user, user } from './globals';
+import { getFromLocalStorage, saveToLocalStorage } from './localStorage';
+import { Storage } from '../entities/Storage';
+import { chatStorage, user } from './globals';
 
-export function saveLocalBuffer() {
-  const prevData = getFromLocalStorage();
+export function saveBuffer() {
+  const data = getFromLocalStorage();
 
-  if (!prevData) {
+  if (!data) {
+    saveToLocalStorage({
+      chats: Array.from(chatStorage.stringify()),
+      buffer: chatStorage.buffer,
+    });
+
     return;
   }
 
-  prevData.buffer = chatStorage.buffer;
+  data.buffer = chatStorage.buffer;
+  chatStorage.buffer = [];
+  saveToLocalStorage(data);
 }
 
-export function saveStorage() {
-  const prevData = getFromLocalStorage();
+export function saveData() {
+  const key = chatStorage.chatName;
 
-  if (!prevData) {
-    const dataToSave = {
-      users: {
-        user: Array.from(chatStorage.entries()),
-      },
-      buffer: [],
-    };
-    saveToLocalStorage(dataToSave);
+  saveToLocalStorage({
+    chats: {
+      key: chatStorage.stringify(),
+    },
+    buffer: chatStorage.buffer,
+  });
+}
+
+export function loadBuffer() {
+  const data = getFromLocalStorage();
+
+  if (!data) {
+    saveData();
+  }
+
+  chatStorage.buffer = data.buffer;
+
+  if (data.buffer.length > 3) {
+    chatStorage.saveBuffer();
+    saveData();
+    loadData();
+  }
+}
+
+export function loadData() {
+  const data = getFromLocalStorage();
+
+  if (!data) {
+    saveData();
 
     return;
   }
 
-  if (prevData[user]) {
-    const prevUserData = prevData[user];
-
-    for (const message of chatStorage.getMessages(user)) {
-      prevData.users[user].push(message);
-    }
-
-    const dataToSave = {
-      buffer: [],
-    };
-  }
+  console.log(data);
+  console.log(data.chats[chatStorage.chatName]);
+  chatStorage.updateFromObject(data.chats[chatStorage.chatName]);
 }

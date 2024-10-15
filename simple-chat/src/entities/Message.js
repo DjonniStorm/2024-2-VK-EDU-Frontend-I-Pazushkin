@@ -1,11 +1,10 @@
 export class Message {
-  constructor(text, date, from, to) {
+  constructor(text, date, to) {
     this._text = text;
     this._date = date;
-    this._from = from;
-    this._to = to;
+    this._from = to;
   }
-  render(classList = '.received-message') {
+  static render(text, date, from, classList = 'received-message') {
     const messageDiv = document.createElement('div');
 
     messageDiv.classList.add('message', classList);
@@ -14,9 +13,9 @@ export class Message {
       messageText = document.createElement('p'),
       messageTime = document.createElement('p');
 
-    messageSender.innerText = this._from;
-    messageText.innerText = this._text;
-    messageTime.innerText = this._date;
+    messageSender.innerText = from;
+    messageText.innerText = text;
+    messageTime.innerText = date;
 
     messageText.classList.add('message__content--text');
     [messageSender, messageText, messageTime].forEach(dataElem => {

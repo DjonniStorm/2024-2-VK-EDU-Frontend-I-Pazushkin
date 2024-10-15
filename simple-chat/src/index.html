@@ -9,7 +9,7 @@
     />
   </head>
   <body>
-    <div id="contacts">
+    <div id="contacts" style="display: none">
       <div class="contacts__header">
         <button class="button header-button">
           <span class="material-symbols-outlined"> menu </span>
@@ -28,13 +28,18 @@
               <div class="contact__last-msg-text">Привет</div>
               <div class="contact__last-msg-time">17:25</div>
             </div>
+          </div>
         </div>
+        <button
+          class="contacts__create-contact-btn"
+          aria-label="Создать Новый Чат"
+          title="Создать Новый Чат"
+        >
+          <span class="material-symbols-outlined"> edit </span>
+        </button>
       </div>
-      <button class="contacts__create-contact-btn" aria-label="Создать Новый Чат" title="Создать Новый Чат">
-        <span class="material-symbols-outlined"> edit </span>
-      </button>
     </div>
-    <div id="chat" style="display: none">
+    <div id="chat">
       <div class="chat__header">
         <div class="chat__header-transition">
           <button class="button header-button">
@@ -75,7 +80,7 @@
         </button>
       </form>
     </div>
-    <div id="incorrect" style="display: none;">
+    <div id="incorrect" style="display: none">
       <h1>ой, чата нет</h1>
     </div>
   </body>
