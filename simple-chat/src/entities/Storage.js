@@ -1,4 +1,3 @@
-import { saveBuffer, loadBuffer, saveData } from '../scripts/storage';
 import { user } from '../scripts/globals';
 import { Message } from './Message';
 
@@ -10,26 +9,39 @@ export class Storage {
     this._chatKey = '';
   }
 
+  receiveMessage(key, message) {
+    if (this._storage.get(key)) {
+      const prev = this._storage.get(key);
+
+      this._storage.delete(key);
+
+      prev.push(
+        new Message(
+          message,
+          this._date.toLocaleTimeString().substring(0, 5),
+          key,
+        ),
+      );
+      this._storage.set(key, prev);
+    }
+  }
+
   *getMessages() {
     console.log(this._buffer);
+
+    if (this._storage.get(this._chatKey)) {
+      for (const message of this._storage.get(this._chatKey)) {
+        yield message;
+      }
+    }
 
     for (const chat of this._buffer) {
       console.log(chat);
       yield chat;
     }
-    if (!this._storage.get(this._chatKey)) {
-      return;
-    }
-    console.log(this._storage.get(this._chatKey));
-    for (const message of this._storage.get(this._chatKey)) {
-      yield message;
-    }
   }
 
   saveBuffer() {
-    console.log('chat-key', this._chatKey);
-    console.log('chat-key2', this._storage.get(this._chatKey));
-
     const prev = this._storage.get(this._chatKey);
 
     this._storage.delete(this._chatKey);
@@ -39,13 +51,6 @@ export class Storage {
     this._storage.set(this._chatKey, prev);
 
     this._buffer = [];
-  }
-
-  updateFromObject(obj) {
-    for (const [key, value] of Object.entries(obj)) {
-      console.log('upd', key, value);
-      this._storage.set(key, value);
-    }
   }
 
   stringify() {
@@ -66,6 +71,13 @@ export class Storage {
     console.log('values', this._storage);
   }
 
+  updateFromObject(obj) {
+    for (const [key, value] of Object.entries(obj)) {
+      console.log('upd', key, value);
+      this._storage.set(key, value);
+    }
+  }
+
   *getChats() {
     for (const [key, value] of this._storage) {
       yield [key, value];
@@ -79,6 +91,16 @@ export class Storage {
 
   containsChat(chatName) {
     return this._storage.has(chatName);
+  }
+
+  isEmpty() {
+    return this._storage.size === 0;
+  }
+
+  get randomChat() {
+    const arr = Array.from(this._storage.keys());
+
+    return arr[Math.floor(Math.random() * arr.length)];
   }
 
   set buffer(value) {

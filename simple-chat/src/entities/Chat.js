@@ -8,7 +8,6 @@ export class Chat {
       chatName = document.createElement('h3'),
       logoDiv = document.createElement('div');
 
-    // TODO: add wrappers classes
     chatDiv.classList.add('contacts__list-contact');
     logoDiv.classList.add('contacts__list-contact-logo');
     contactInfo.classList.add('contacts__list-contact-info');

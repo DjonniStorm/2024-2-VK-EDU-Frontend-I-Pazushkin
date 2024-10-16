@@ -2,7 +2,7 @@
     Стили персонального чата
 */
 
-#chat {
+.chat {
     height: 100vh;
     display: flex;
     flex-direction: column;

@@ -8,6 +8,8 @@ export const chatUserName = document.querySelector(
   '.contacts__header-username',
 );
 
+export const chatName = document.querySelector('.chat__contact');
+
 export const buttonCreate = document.querySelector(
   '.contacts__create-contact-btn',
 );

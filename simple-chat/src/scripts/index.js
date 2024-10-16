@@ -7,11 +7,12 @@ import {
   chatsLayout,
   messages,
   chatPage,
+  chatName,
   input,
   form,
 } from './nodes';
 import { loadBuffer, saveBuffer, saveData, loadData } from './storage';
-import { user, chatStorage, QUERY_CHAT } from './globals';
+import { chatStorage, QUERY_CHAT, user } from './globals';
 import { Message } from '../entities/Message';
 import { Chat } from '../entities/Chat';
 import '../styles/personal-chat.css';
@@ -22,7 +23,40 @@ document.addEventListener('DOMContentLoaded', () => {
   loadData();
   render();
   chatUserName.innerText = user;
+  randomMessages();
 });
+
+function randomMessages() {
+  setInterval(async () => {
+    try {
+      console.log('1 return');
+      console.log(chatStorage.isEmpty());
+
+      if (chatStorage.isEmpty()) {
+        return;
+      }
+
+      console.log('2 return');
+
+      const messageText = await newMessage();
+
+      console.log('upd text', messageText);
+
+      if (!messageText) {
+        return;
+      }
+
+      console.log('3 return');
+
+      chatStorage.receiveMessage(chatStorage.randomChat, messageText);
+      saveData();
+      render();
+    } catch (e) {
+      console.warn(e);
+    }
+  }, 10000);
+}
+
 form.addEventListener('submit', handleSubmit);
 form.addEventListener('keypress', handleKeyPress);
 buttonCreate.addEventListener('click', () => {
@@ -35,6 +69,7 @@ buttonCreate.addEventListener('click', () => {
 });
 
 backToChatList.addEventListener('click', () => {
+  chatStorage.saveBuffer();
   saveBuffer();
   saveData();
   makeNoneAndVis(displayOptions.chats);
@@ -87,10 +122,6 @@ function handleKeyPress(event) {
 }
 
 function render() {
-  for (const a of chatStorage.getChats()) {
-    console.log(a);
-  }
-
   const urlParams = new URL(window.location.href);
 
   if (!urlParams.search) {
@@ -101,19 +132,21 @@ function render() {
   }
 
   if (chatStorage.containsChat(urlParams.searchParams.get(QUERY_CHAT))) {
-    renderMessages();
+    chatName.innerText = urlParams.searchParams.get(QUERY_CHAT);
     chatStorage.chatName = urlParams.searchParams.get(QUERY_CHAT);
     makeNoneAndVis(displayOptions.messages);
+    renderMessages();
 
     return;
   }
 
   makeNoneAndVis(displayOptions.blank);
-  renderBlank();
 }
 
 function renderMessages() {
+  loadData();
   messages.innerHTML = '';
+  console.log('messages.innerHTML = ""');
 
   for (const message of chatStorage.getMessages()) {
     console.log(message);
@@ -132,29 +165,41 @@ function renderMessages() {
 }
 
 function renderChats() {
+  chatsLayout.innerHTML = '';
+
   for (const chat of chatStorage.getChats()) {
     const [contact, msgs] = chat;
 
-    chatsLayout.appendChild(
-      Chat.render(
-        contact,
-        msgs[msgs.length - 1]._text,
-        msgs[msgs.length - 1]._date,
-      ),
+    const div = Chat.render(
+      contact,
+      msgs.length > 0 ? msgs[msgs.length - 1]._text : 'пусто (',
+      msgs.length > 0 ? msgs[msgs.length - 1]._date : ' ',
     );
-
-    console.log(
-      'chat-item',
-      chat,
-      Chat.render(
-        contact,
-        msgs[msgs.length - 1]._text,
-        msgs[msgs.length - 1]._date,
-      ),
-    );
+    div.addEventListener('click', () => handleChatRoute(contact));
+    chatsLayout.prepend(div);
   }
 }
 
-function renderBlank() {
-  //TODO: render blank page
+function handleChatRoute(contact) {
+  saveBuffer();
+  window.location.href = `?${QUERY_CHAT}=${contact}`;
+  render();
+}
+
+async function newMessage() {
+  try {
+    // const req = await fetch('https://fish-text.ru/get?format=json');
+    const req = await fetch('123');
+    const data = await req.json();
+
+    console.log('text', data.text);
+
+    if (data.status == 'success') {
+      return data.text;
+    }
+
+    return '';
+  } catch (e) {
+    throw new Error(e.message);
+  }
 }
