@@ -1,0 +1,108 @@
+/* 
+    Стили для всех доступных чатов
+*/
+
+.contacts {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--black-transparent-color);
+    overflow: hidden;
+}
+
+.contacts__header {
+    width: 100%;
+    padding: 0 20px;
+    background-color: var(--purple-color);
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contacts__header-username {
+    flex-grow: 1;
+    padding: 10px;
+    color: var(--white-color);
+}
+
+.contacts__header-search {
+    display: flex;
+    align-items: center;
+}
+
+.contacts__header-search__input {
+    border-radius: 5px;
+    padding: 5px;
+    border-color: var(--black-transparent-color);
+}
+
+.contacts__list {
+    overflow-y: auto;
+    height: calc(100% - 50px);
+}
+
+.contacts__list-contact {
+    display: flex;
+    padding: 1em;
+    align-items: center;
+}
+
+.contacts__list-contact:hover {
+    background-color: var(--black-transparent-color);
+}
+
+.contacts__list-contact-info {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 2em;
+    width: 80%;
+    flex-direction: column;
+    border-bottom: 2px solid var(--black-transparent-color);
+}
+
+.contact__last-msg {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contact__last-msg-text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contacts__create-contact-btn {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 80px;
+    aspect-ratio: 1 / 1;
+    background-color: #FFD54F;
+    color: #756124;
+    border-radius: 50%;
+    border: 2px solid black;
+
+    box-shadow: 2px 2px 2px 0 black;
+}
+
+.contacts__create-contact-btn span {
+    font-size: 38px;
+}
+
+.contacts__create-contact-btn .material-symbols-outlined:hover {
+    transform: scale(1.02);
+}
+
+.contacts__create-contact-btn:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 1px black;
+    transform: scale(1.02);
+}
+
+.contacts__list-contact-logo {
+    min-width: 60px;
+    min-height: 60px;
+    border-radius: 50%;
+}

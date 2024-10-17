@@ -36,7 +36,12 @@ export default [
       'no-unused-expressions': 'error',
       'prefer-arrow-callback': 'error',
       'prefer-destructuring': 'error',
-      'prettier/prettier': 'error',
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
       'consistent-return': 'error',
       'arrow-body-style': 'error',
       'object-shorthand': 'error',
