@@ -30,6 +30,12 @@
     user-select: none;
 }
 
+.chat__header-info-logo {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+}
+
 .chat__messages-layout {
     flex-grow: 1;
     display: flex;
@@ -108,6 +114,19 @@
 
 .contacts__header-username {
     flex-grow: 1;
+    padding: 10px;
+    color: var(--white-color);
+}
+
+.contacts__header-search {
+    display: flex;
+    align-items: center;
+}
+
+.contacts__header-search__input {
+    border-radius: 5px;
+    padding: 5px;
+    border-color: var(--black-transparent-color);
 }
 
 .contacts__list {
