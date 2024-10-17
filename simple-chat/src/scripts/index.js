@@ -67,7 +67,8 @@ backToChatList.addEventListener('click', () => {
   chatStorage.saveBuffer();
   saveBuffer();
   saveData();
-  window.location.href = '/2024-2-VK-EDU-Frontend-I-Pazushkin/';
+  window.location.href =
+    'https://djonnistorm.github.io/2024-2-VK-EDU-Frontend-I-Pazushkin/';
   render();
 });
 
