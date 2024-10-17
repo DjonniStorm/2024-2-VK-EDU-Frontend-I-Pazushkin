@@ -42,6 +42,7 @@ function randomMessages() {
         return;
       }
 
+      saveBuffer();
       chatStorage.receiveMessage(chatStorage.randomChat, messageText);
       saveData();
       render();
@@ -66,8 +67,7 @@ backToChatList.addEventListener('click', () => {
   chatStorage.saveBuffer();
   saveBuffer();
   saveData();
-  makeNoneAndVis(displayOptions.chats);
-  window.location.href = '/';
+  window.location.href = '/2024-2-VK-EDU-Frontend-I-Pazushkin/';
   render();
 });
 
