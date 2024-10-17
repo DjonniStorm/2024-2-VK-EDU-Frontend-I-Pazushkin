@@ -23,3 +23,13 @@ export const contactsPage = document.querySelector('.contacts');
 export const chatPage = document.querySelector('.chat');
 
 export const backToChatList = document.querySelector('.chats-back');
+
+export const searchInput = document.querySelector(
+  '.contacts__header-search__input',
+);
+
+export const searchButton = document.querySelector(
+  '.contacts__header-search__button',
+);
+
+export const chatLogo = document.querySelector('.chat__header-info-logo');

@@ -26,18 +26,17 @@ export class Storage {
     }
   }
 
-  *getMessages() {
-    console.log(this._buffer);
-
-    if (this._storage.get(this._chatKey)) {
-      for (const message of this._storage.get(this._chatKey)) {
-        yield message;
+  *getChats(chat = '') {
+    if (!chat) {
+      for (const [key, value] of this._storage) {
+        yield [key, value];
       }
-    }
-
-    for (const chat of this._buffer) {
-      console.log(chat);
-      yield chat;
+    } else {
+      for (const [key, value] of this._storage) {
+        if (key.startsWith(chat)) {
+          yield [key, value];
+        }
+      }
     }
   }
 
@@ -53,12 +52,23 @@ export class Storage {
     this._buffer = [];
   }
 
+  *getMessages() {
+    if (this._storage.get(this._chatKey)) {
+      for (const message of this._storage.get(this._chatKey)) {
+        yield message;
+      }
+    }
+
+    for (const chat of this._buffer) {
+      yield chat;
+    }
+  }
+
   stringify() {
     const map = {};
 
     for (const [key, value] of this._storage.entries()) {
       map[key] = value;
-      console.log(key, value);
     }
 
     return map;
@@ -68,19 +78,11 @@ export class Storage {
     this._buffer.push(
       new Message(text, this._date.toLocaleTimeString().substring(0, 5), user),
     );
-    console.log('values', this._storage);
   }
 
   updateFromObject(obj) {
     for (const [key, value] of Object.entries(obj)) {
-      console.log('upd', key, value);
       this._storage.set(key, value);
-    }
-  }
-
-  *getChats() {
-    for (const [key, value] of this._storage) {
-      yield [key, value];
     }
   }
 
@@ -103,13 +105,12 @@ export class Storage {
     return arr[Math.floor(Math.random() * arr.length)];
   }
 
-  set buffer(value) {
-    console.log('buffer value', value);
-    this._buffer = value;
-  }
-
   set chatName(value) {
     this._chatKey = value;
+  }
+
+  set buffer(value) {
+    this._buffer = value;
   }
 
   get chatName() {

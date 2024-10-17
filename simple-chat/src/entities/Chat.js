@@ -30,8 +30,6 @@ export class Chat {
     chatDiv.appendChild(logoDiv);
     chatDiv.appendChild(contactInfo);
 
-    console.log('chat div', chatDiv);
-
     return chatDiv;
   }
 }

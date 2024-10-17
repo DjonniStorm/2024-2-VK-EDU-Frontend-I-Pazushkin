@@ -30,6 +30,12 @@
     user-select: none;
 }
 
+.chat__header-info-logo {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+}
+
 .chat__messages-layout {
     flex-grow: 1;
     display: flex;

@@ -4,10 +4,13 @@ import {
   buttonCreate,
   contactsPage,
   chatUserName,
+  searchButton,
   chatsLayout,
+  searchInput,
   messages,
   chatPage,
   chatName,
+  chatLogo,
   input,
   form,
 } from './nodes';
@@ -29,24 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function randomMessages() {
   setInterval(async () => {
     try {
-      console.log('1 return');
-      console.log(chatStorage.isEmpty());
-
       if (chatStorage.isEmpty()) {
         return;
       }
 
-      console.log('2 return');
-
       const messageText = await newMessage();
-
-      console.log('upd text', messageText);
 
       if (!messageText) {
         return;
       }
-
-      console.log('3 return');
 
       chatStorage.receiveMessage(chatStorage.randomChat, messageText);
       saveData();
@@ -54,7 +48,7 @@ function randomMessages() {
     } catch (e) {
       console.warn(e);
     }
-  }, 10000);
+  }, 25000);
 }
 
 form.addEventListener('submit', handleSubmit);
@@ -76,6 +70,17 @@ backToChatList.addEventListener('click', () => {
   window.location.href = '/';
   render();
 });
+
+searchInput.addEventListener('input', handleSearch);
+searchButton.addEventListener('click', () => handleSearch);
+
+function handleSearch() {
+  if (searchInput.value) {
+    renderChats(searchInput.value);
+  } else {
+    renderChats();
+  }
+}
 
 const displayOptions = {
   chats: 1,
@@ -133,6 +138,7 @@ function render() {
 
   if (chatStorage.containsChat(urlParams.searchParams.get(QUERY_CHAT))) {
     chatName.innerText = urlParams.searchParams.get(QUERY_CHAT);
+    chatLogo.style.background = `url("https://i.pravatar.cc/60?random=${Math.random()})`;
     chatStorage.chatName = urlParams.searchParams.get(QUERY_CHAT);
     makeNoneAndVis(displayOptions.messages);
     renderMessages();
@@ -146,11 +152,8 @@ function render() {
 function renderMessages() {
   loadData();
   messages.innerHTML = '';
-  console.log('messages.innerHTML = ""');
 
   for (const message of chatStorage.getMessages()) {
-    console.log(message);
-
     const { _text, _date, _from } = message;
 
     messages.prepend(
@@ -164,15 +167,15 @@ function renderMessages() {
   }
 }
 
-function renderChats() {
+function renderChats(nessesaryChat = '') {
   chatsLayout.innerHTML = '';
 
-  for (const chat of chatStorage.getChats()) {
+  for (const chat of chatStorage.getChats(nessesaryChat)) {
     const [contact, msgs] = chat;
 
     const div = Chat.render(
       contact,
-      msgs.length > 0 ? msgs[msgs.length - 1]._text : 'пусто (',
+      msgs.length > 0 ? msgs[msgs.length - 1]._text : 'пусто...',
       msgs.length > 0 ? msgs[msgs.length - 1]._date : ' ',
     );
     div.addEventListener('click', () => handleChatRoute(contact));
@@ -188,11 +191,8 @@ function handleChatRoute(contact) {
 
 async function newMessage() {
   try {
-    // const req = await fetch('https://fish-text.ru/get?format=json');
-    const req = await fetch('123');
+    const req = await fetch('https://fish-text.ru/get?format=json');
     const data = await req.json();
-
-    console.log('text', data.text);
 
     if (data.status == 'success') {
       return data.text;

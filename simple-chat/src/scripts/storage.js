@@ -1,6 +1,5 @@
 import { getFromLocalStorage, saveToLocalStorage } from './localStorage';
-import { Storage } from '../entities/Storage';
-import { chatStorage, user } from './globals';
+import { chatStorage } from './globals';
 
 export function saveBuffer() {
   const data = getFromLocalStorage();
@@ -57,9 +56,6 @@ export function loadData() {
 
     return;
   }
-
-  console.log(data);
-  console.log('чаты', data.chats);
 
   if (data.buffer) {
     chatStorage.buffer = data.buffer;
