@@ -1,36 +1,69 @@
-import { LOCAL_STORAGE_KEY, user } from './elements';
+import { getFromLocalStorage, saveToLocalStorage } from './localStorage';
+import { chatStorage } from './globals';
 
-export function saveToLocalStorage(message) {
-  try {
-    const savedMessages = localStorage.getItem(LOCAL_STORAGE_KEY);
+export function saveBuffer() {
+  const data = getFromLocalStorage();
 
-    const messageToSave = {
-      time: new Date().toLocaleTimeString().substring(0, 5),
-      text: message,
-      from: user,
+  if (!data) {
+    const data = {
+      lastChat: chatStorage.chatName,
+      buffer: chatStorage.buffer,
+      chats: {},
     };
+    Object.assign(data.chats, chatStorage.stringify());
+    saveToLocalStorage(data);
 
-    if (savedMessages) {
-      const messages = JSON.parse(savedMessages);
+    return;
+  }
 
-      messages.push(messageToSave);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(messages));
+  data.buffer = chatStorage.buffer;
+  chatStorage.buffer = [];
+  saveToLocalStorage(data);
+}
 
-      return;
-    }
+export function saveData() {
+  const data = {
+    lastChat: chatStorage.chatName,
+    buffer: chatStorage.buffer,
+    chats: {},
+  };
+  Object.assign(data.chats, chatStorage.stringify());
+  saveToLocalStorage(data);
+}
 
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([messageToSave]));
-  } catch (e) {
-    console.warn(e);
+export function loadBuffer() {
+  const data = getFromLocalStorage();
+
+  if (!data) {
+    saveData();
+  }
+
+  chatStorage.chatName = data.lastChat;
+  chatStorage.buffer = data.buffer;
+
+  if (data.buffer.length > 3) {
+    chatStorage.saveBuffer();
+    saveData();
+    loadData();
   }
 }
 
-export function getFromLocalStorage() {
-  try {
-    const savedMessages = localStorage.getItem(LOCAL_STORAGE_KEY);
+export function loadData() {
+  const data = getFromLocalStorage();
 
-    return JSON.parse(savedMessages);
-  } catch (e) {
-    throw new Error('Can`t get data');
+  if (!data) {
+    saveData();
+
+    return;
   }
+
+  if (data.buffer) {
+    chatStorage.buffer = data.buffer;
+  }
+
+  if (data.lastChat) {
+    chatStorage.chatName = data.lastChat;
+  }
+
+  chatStorage.updateFromObject(data.chats);
 }

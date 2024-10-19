@@ -9,26 +9,53 @@
     />
   </head>
   <body>
-    <div id="chat">
+    <div class="contacts">
+      <div class="contacts__header">
+        <button class="button header-button">
+          <span class="material-symbols-outlined"> menu </span>
+        </button>
+        <h3 class="contacts__header-username"></h3>
+        <div class="contacts__header-search">
+          <input
+            class="contacts__header-search__input"
+            name="message-text"
+            placeholder="Поиск"
+            type="text"
+            autocomplete="on"
+            spellcheck="true"
+          />
+          <button class="contacts__header-search__button button header-button">
+            <span class="material-symbols-outlined"> search </span>
+          </button>
+        </div>
+      </div>
+      <div class="contacts__list"></div>
+      <button
+        class="contacts__create-contact-btn"
+        aria-label="Создать Новый Чат"
+        title="Создать Новый Чат"
+      >
+        <span class="material-symbols-outlined"> edit </span>
+      </button>
+    </div>
+    <div class="chat">
       <div class="chat__header">
         <div class="chat__header-transition">
-          <button class="button chat__header-button">
+          <button class="button header-button chats-back" title="Назад">
             <span class="material-symbols-outlined">arrow_back</span>
           </button>
           <div class="chat__header-info">
-            <span class="material-symbols-outlined">account_circle</span>
+            <div class="chat__header-info-logo"></div>
             <div class="chat__header-info-status">
-              <h3>
-                VK Education // Frontend-разработка: fullstack / 2 // Осень 2024
-              </h3>
+              <h3 class="chat__contact"></h3>
             </div>
           </div>
         </div>
         <div class="chat__header-tools">
-          <button class="button chat__header-button">
+          <button class="button header-button">
             <span class="material-symbols-outlined">search</span>
           </button>
-          <button class="button chat__header-button">
+          <button class="button header-button">
             <span class="material-symbols-outlined">more_vert</span>
           </button>
         </div>
@@ -51,6 +78,10 @@
           <span class="material-symbols-outlined">attachment</span>
         </button>
       </form>
+    </div>
+    <div class="incorrect" class="none">
+      <h1>ой, чата нет</h1>
+      <img src="https://c.tenor.com/m4Gn7YI8y4YAAAAC/tenor.gif" />
     </div>
   </body>
 </html>
