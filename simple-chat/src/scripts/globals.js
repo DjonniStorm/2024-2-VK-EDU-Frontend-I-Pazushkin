@@ -1,6 +1,6 @@
 import { Storage } from '../entities/Storage';
 
-export const user = 'Илья';
+export let user = prompt('Введите имя пользователя') || Math.random();
 
 export const LOCAL_STORAGE_KEY = 'chat-messages';
 
