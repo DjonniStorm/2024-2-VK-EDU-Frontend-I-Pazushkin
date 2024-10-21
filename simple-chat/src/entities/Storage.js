@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { user } from '../scripts/globals';
 import { Message } from './Message';
 
@@ -29,31 +30,9 @@ export class Storage {
       return;
     }
 
-    prev.set(user1, []);
+    prev.set(user2, []);
 
     this._users[user1] = prev;
-  }
-
-  //TODO: norm stringify
-  stringify() {
-    console.log('before', this._users);
-
-    const serializableUsers = {};
-
-    for (const [userName, chats] of Object.entries(this._users)) {
-      serializableUsers[userName] = {};
-      console.log('userName', userName);
-      console.log('chats', chats);
-
-      for (const [chatUser, messages] of chats) {
-        serializableUsers[userName][chatUser] = messages;
-        console.log('chatUser', chatUser);
-      }
-    }
-
-    console.log(serializableUsers);
-
-    return serializableUsers;
   }
 
   addChat(chatWith) {
@@ -72,6 +51,21 @@ export class Storage {
     }
   }
 
+  //TODO: norm stringify
+  stringify() {
+    const serializableUsers = {};
+
+    for (const [userName, chats] of Object.entries(this._users)) {
+      serializableUsers[userName] = {};
+
+      for (const [chatUser, messages] of chats) {
+        serializableUsers[userName][chatUser] = messages;
+      }
+    }
+
+    return serializableUsers;
+  }
+
   addMessage(messageText) {
     this.#updateMessages(
       messageText, //text
@@ -80,21 +74,23 @@ export class Storage {
       user, //sender
     );
     this.#updateMessages(messageText, this._chatKey, user, user);
-
-    console.log('add message', this._users);
   }
 
   *getMessages() {
-    console.log('get msgs', this._users);
     if (!this._users[user]) {
       return;
     }
-
-    for (const [, value] of this._users[user]) {
-      for (const message of value) {
-        console.log(message);
-        yield message;
-      }
+    console.log('getMessages');
+    console.log(this._users);
+    console.log(this._users[user]);
+    // debugger;
+    const messages = this._users[user].get(this._chatKey);
+    if (!messages) {
+      return;
+    }
+    for (const message of messages) {
+      // if (message._)
+      yield message;
     }
   }
   *getChats() {
@@ -103,6 +99,7 @@ export class Storage {
     }
 
     for (const [key, value] of this._users[user]) {
+      console.log(key, value);
       yield [key, value];
     }
   }
@@ -113,9 +110,11 @@ export class Storage {
   }
 
   containsChat(chatName) {
-    const keys = Object.keys(this._users);
+    if (this._users[user] && this._users[user].get(chatName)) {
+      return true;
+    }
 
-    return keys.includes(chatName);
+    return false;
   }
 
   addUser() {

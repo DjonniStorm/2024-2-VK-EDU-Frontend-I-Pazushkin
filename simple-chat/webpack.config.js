@@ -9,6 +9,7 @@ const SRC_PATH = path.resolve(__dirname, 'src');
 const BUILD_PATH = path.resolve(__dirname, 'build');
 
 module.exports = {
+  devtool: 'source-map',
   module: {
     rules: [
       {

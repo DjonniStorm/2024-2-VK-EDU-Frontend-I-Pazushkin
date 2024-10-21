@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 form.addEventListener('submit', handleSubmit);
-form.addEventListener('keypress', handleKeyPress);
+form.addEventListener('keydown', handleKeyPress);
 buttonCreate.addEventListener('click', handleCreateChat);
 
 searchInput.addEventListener('input', handleSearch);
@@ -40,25 +40,37 @@ searchButton.addEventListener('click', () => handleSearch);
 chatUserName.addEventListener('change', event => {
   const selectedValue = event.target.value;
 
-  // eslint-disable-next-line no-import-assign
-  // user = selectedValue;
   changeUser(selectedValue);
   render();
 });
 
-backToChatList.addEventListener('click', () => {
-  history.replaceState(null, '', '/');
-  render();
-});
+backToChatList.addEventListener('click', handleArrowBack);
 
 // handlers
 
-function handleAddUser(name) {
-  const newOption = document.createElement('option');
+function handleArrowBack() {
+  history.replaceState(null, '', '/');
+  render();
+}
 
-  newOption.value = name;
-  newOption.textContent = name;
-  chatUserName.appendChild(newOption);
+function handleAddUser(first = '') {
+  chatUserName.innerHTML = '';
+
+  if (first) {
+    const option = document.createElement('option');
+
+    option.value = first;
+    option.textContent = first;
+    chatUserName.appendChild(option);
+  }
+
+  for (const i of chatStorage.getAllUsers()) {
+    const prevOption = document.createElement('option');
+
+    prevOption.value = i;
+    prevOption.textContent = i;
+    chatUserName.appendChild(prevOption);
+  }
 }
 
 function handleCreateChat() {
@@ -77,7 +89,7 @@ function handleCreateChat() {
       history.replaceState(null, '', `?${QUERY_CHAT}=${newChatName}`);
     }
 
-    handleAddUser(newChatName);
+    handleAddUser();
     render();
 
     return;
@@ -86,7 +98,7 @@ function handleCreateChat() {
   chatStorage.addChat(`${newChatName}`);
   history.replaceState(null, '', `?${QUERY_CHAT}=${newChatName}`);
   render();
-  handleAddUser(newChatName);
+  handleAddUser();
 }
 
 function handleSearch() {}
@@ -102,8 +114,14 @@ function handleSubmit(event) {
 }
 
 function handleKeyPress(event) {
+  console.log(event.keyCode);
   if (event.keyCode === 13) {
     form.dispatchEvent(new Event('submit'));
+  }
+
+  if (event.keyCode === 27) {
+    console.log('escape');
+    handleArrowBack();
   }
 }
 
@@ -134,6 +152,7 @@ function makeNoneAndVis(visiblePage) {
 
 function render() {
   const urlParams = new URL(window.location.href);
+
   console.log(urlParams.search, urlParams.searchParams.get(QUERY_CHAT));
   console.log(
     chatStorage._users,
@@ -161,12 +180,14 @@ function render() {
   //error page
 }
 
-function renderChats() {
+function renderChats(searchKey = '') {
   chatsLayout.innerHTML = '';
+  console.log('chats clear');
 
   for (const chat of chatStorage.getChats(user)) {
     const [contact, msgs] = chat;
-
+    if (searchKey) {
+    }
     const div = Chat.render(
       contact,
       msgs.length > 0 ? msgs[msgs.length - 1]._text : 'пусто...',
