@@ -113,6 +113,8 @@
 }
 
 .contacts__header-username {
+    background: none;
+    border: none;
     flex-grow: 1;
     padding: 10px;
     color: var(--white-color);
