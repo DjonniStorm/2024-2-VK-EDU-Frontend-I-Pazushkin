@@ -1,8 +1,8 @@
 export class Message {
-  constructor(text, date, to) {
+  constructor(text, date, from) {
     this._text = text;
     this._date = date;
-    this._from = to;
+    this._from = from;
   }
   static render(text, date, from, classList = 'received-message') {
     const messageDiv = document.createElement('div');
