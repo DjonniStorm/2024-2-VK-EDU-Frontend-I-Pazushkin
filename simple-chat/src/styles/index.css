@@ -9,7 +9,7 @@ html {
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -21,6 +21,8 @@ html {
     --white-color: #FFF;
     --sent-message: #F3E5F5;
     --received-message: #FFF;
+    --yellow-color: #FFD54F;
+    --brown-color: #756124;
 }
 
 body {

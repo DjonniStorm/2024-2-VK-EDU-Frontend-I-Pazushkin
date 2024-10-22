@@ -19,8 +19,11 @@ export class Chat {
     chatName.innerText = chatWith;
     timeStamp.innerText = lastMsgTime;
 
+    const bgText = document.createElement('p');
+
+    bgText.innerText = chatWith.charAt(0);
+    logoDiv.appendChild(bgText);
     logoDiv.style.backgroundColor = bgColor;
-    logoDiv.innerHTML = `<p>${chatWith.charAt(0)}</p>`;
 
     contactInfoWrapper.appendChild(chatLastMsg);
     contactInfoWrapper.appendChild(timeStamp);

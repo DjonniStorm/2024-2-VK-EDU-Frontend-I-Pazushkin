@@ -4,7 +4,7 @@ export class Message {
     this._date = date;
     this._from = from;
   }
-  static render(text, date, from, classList = 'received-message') {
+  static render(text, date, from, isNew, classList = 'received-message') {
     const messageDiv = document.createElement('div');
 
     messageDiv.classList.add('message', classList);
@@ -22,6 +22,10 @@ export class Message {
       dataElem.classList.add('message__content');
       messageDiv.appendChild(dataElem);
     });
+
+    if (isNew) {
+      messageDiv.classList.add('new-message');
+    }
 
     return messageDiv;
   }

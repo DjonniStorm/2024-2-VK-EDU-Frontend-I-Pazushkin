@@ -5,7 +5,7 @@ export const input = document.querySelector('.chat__form-input');
 export const messages = document.querySelector('.chat__messages-layout');
 
 export const chatUserName = document.querySelector(
-  '.contacts__header-username',
+  '.contacts__header-username-select',
 );
 
 export const chatName = document.querySelector('.chat__contact');

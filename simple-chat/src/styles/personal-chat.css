@@ -51,6 +51,7 @@
     padding: 20px;
     position: relative;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .message {
@@ -72,6 +73,22 @@
     align-self: flex-end;
     background-color: var(--sent-message);
     position: relative;
+}
+
+.new-message {
+    animation: fadeIn .5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        right: -100px;
+    }
+
+    to {
+        right: 0;
+        opacity: 1;
+    }
 }
 
 .received-message {

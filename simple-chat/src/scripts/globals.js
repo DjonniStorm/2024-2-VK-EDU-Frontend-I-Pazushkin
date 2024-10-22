@@ -1,5 +1,7 @@
 import { Storage } from '../entities/Storage';
 
+export const chatStorage = new Storage();
+
 export let user = prompt('Введите имя пользователя') || Math.random();
 
 export const changeUser = newUser => {
@@ -9,5 +11,3 @@ export const changeUser = newUser => {
 export const LOCAL_STORAGE_KEY = 'chat-messages';
 
 export const QUERY_CHAT = 'chatID';
-
-export const chatStorage = new Storage();

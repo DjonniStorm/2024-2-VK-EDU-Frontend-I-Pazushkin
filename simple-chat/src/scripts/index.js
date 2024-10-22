@@ -14,7 +14,7 @@ import {
   input,
   form,
 } from './nodes';
-import { saveToLocalStorage, getFromLocalStorage } from './localStorage';
+import { getFromLocalStorage, saveToLocalStorage } from './localStorage';
 import { chatStorage, QUERY_CHAT, changeUser, user } from './globals';
 import { Message } from '../entities/Message';
 import { Chat } from '../entities/Chat';
@@ -39,6 +39,7 @@ searchButton.addEventListener('click', () => handleSearch);
 
 chatUserName.addEventListener('change', event => {
   const selectedValue = event.target.value;
+  console.log('chna');
 
   changeUser(selectedValue);
   render();
@@ -54,7 +55,7 @@ function handleArrowBack() {
   render();
 }
 
-function handleAddUser(first = '') {
+function handleAddUser(first) {
   chatUserName.innerHTML = '';
 
   if (first) {
@@ -63,6 +64,8 @@ function handleAddUser(first = '') {
     option.value = first;
     option.textContent = first;
     chatUserName.appendChild(option);
+
+    return;
   }
 
   for (const i of chatStorage.getAllUsers()) {
@@ -111,7 +114,7 @@ function handleSubmit(event) {
 
   if (input.value.trim()) {
     chatStorage.addMessage(input.value);
-    render();
+    renderMessages(true);
     saveToLocalStorage();
     input.value = '';
   }
@@ -217,21 +220,34 @@ function handleChatRoute(id) {
   render();
 }
 
-function renderMessages() {
+function renderMessages(isNewUpd) {
   messages.innerHTML = '';
 
-  for (const item of chatStorage.getMessages()) {
-    console.log(item);
+  const messagesIterator = chatStorage.getMessages();
 
-    const { _text, _date, _from } = item;
+  let item = messagesIterator.next();
+
+  while (!item.done) {
+    const { _text, _date, _from } = item.value;
+
+    const nextItem = messagesIterator.next();
+
+    let isNew = false;
+
+    if (nextItem.done && isNewUpd) {
+      isNew = true;
+      console.log('Это последний элемент');
+    }
 
     messages.prepend(
       Message.render(
         _text,
         _date,
         _from,
+        isNew,
         _from === user ? 'sent-message' : undefined,
       ),
     );
+    item = nextItem;
   }
 }
