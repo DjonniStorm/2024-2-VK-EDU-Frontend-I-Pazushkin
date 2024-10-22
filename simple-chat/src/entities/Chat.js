@@ -1,5 +1,5 @@
 export class Chat {
-  static render(chatWith, lastMsg, lastMsgTime) {
+  static render(chatWith, lastMsg, lastMsgTime, bgColor) {
     const contactInfoWrapper = document.createElement('div'),
       chatLastMsg = document.createElement('div'),
       contactInfo = document.createElement('div'),
@@ -19,7 +19,8 @@ export class Chat {
     chatName.innerText = chatWith;
     timeStamp.innerText = lastMsgTime;
 
-    logoDiv.style.backgroundImage = `url("https://i.pravatar.cc/60?random=${Math.random()}")`;
+    logoDiv.style.backgroundColor = bgColor;
+    logoDiv.innerHTML = `<p>${chatWith.charAt(0)}</p>`;
 
     contactInfoWrapper.appendChild(chatLastMsg);
     contactInfoWrapper.appendChild(timeStamp);

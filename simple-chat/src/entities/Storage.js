@@ -1,26 +1,28 @@
 /* eslint-disable */
 import { user } from '../scripts/globals';
+import { Colors } from './Colors';
 import { Message } from './Message';
 
 export class Storage {
   constructor() {
     this._users = {};
-    this._date = new Date();
     this._chatKey = '';
+    this._unnesesaryAdditions = new Colors();
   }
   #updateMessages(text, userFrom, userTo, sender) {
+    const timeStamp = new Date().toLocaleTimeString().substring(0, 5);
     if (this._users[userFrom] && this._users[userFrom].get(userTo)) {
       const prev = this._users[userFrom].get(userTo);
 
       this._users[userFrom].delete(userTo);
-      prev.push(new Message(text, this._date.toLocaleTimeString(), sender));
+      prev.push(new Message(text, timeStamp, sender));
       this._users[userFrom].set(userTo, prev);
 
       return;
     }
 
     this._users[userFrom].set(this._chatKey, [
-      new Message(text, this._date.toLocaleTimeString(), sender),
+      new Message(text, timeStamp, sender),
     ]);
   }
   #updateChats(user1, user2) {
@@ -41,12 +43,16 @@ export class Storage {
     if (this._users[user]) {
       this.#updateChats(user, chatWith);
     } else {
+      this._unnesesaryAdditions.newUser(user);
+
       this._users[user] = new Map().set(chatWith, []);
     }
 
     if (this._users[chatWith]) {
       this.#updateChats(chatWith, user);
     } else {
+      this._unnesesaryAdditions.newUser(chatWith);
+
       this._users[chatWith] = new Map().set(user, []);
     }
   }
@@ -115,6 +121,38 @@ export class Storage {
     }
 
     return false;
+  }
+
+  updateFromStorage(obj) {
+    const upd = {};
+
+    for (const [userName, chats] of Object.entries(obj)) {
+      const userMap = new Map();
+
+      if (typeof chats === 'object' && !Array.isArray(chats)) {
+        for (const [contact, messages] of Object.entries(chats)) {
+          userMap.set(contact, messages);
+        }
+      } else {
+        userMap.set(userName, chats);
+      }
+
+      upd[userName] = userMap;
+    }
+
+    this._users = upd;
+  }
+
+  saveColors() {
+    return this._unnesesaryAdditions.saveColors();
+  }
+
+  loadColors(value) {
+    this._unnesesaryAdditions.loadColors(value);
+  }
+
+  getUserBgColor(value) {
+    return this._unnesesaryAdditions.getColor(value);
   }
 
   addUser() {

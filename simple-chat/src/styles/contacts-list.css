@@ -107,4 +107,16 @@
     min-width: 60px;
     min-height: 60px;
     border-radius: 50%;
+    display: flex;
+}
+
+.contacts__list-contact-logo p {
+    margin: auto;
+    text-shadow:
+        -1px -1px 1em var(--white-color),
+        1px -1px 1em var(--white-color),
+        -1px 1px 1em var(--white-color),
+        1px 1px 1em var(--white-color);
+    font-size: large;
+    color: var(--white-color);
 }

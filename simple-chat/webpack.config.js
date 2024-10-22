@@ -9,7 +9,6 @@ const SRC_PATH = path.resolve(__dirname, 'src');
 const BUILD_PATH = path.resolve(__dirname, 'build');
 
 module.exports = {
-  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -64,5 +63,6 @@ module.exports = {
   entry: {
     index: './scripts/index.js',
   },
+  devtool: 'source-map',
   context: SRC_PATH,
 };
