@@ -34,6 +34,13 @@
     width: 3em;
     height: 3em;
     border-radius: 50%;
+    background-color: var(--black-transparent-color);
+    border: 2px solid var(--white-color);
+    display: flex;
+}
+
+.chat__header-info-logo p {
+    margin: auto;
 }
 
 .chat__messages-layout {
@@ -200,6 +207,18 @@
     min-width: 60px;
     min-height: 60px;
     border-radius: 50%;
+    display: flex;
+}
+
+.contacts__list-contact-logo p {
+    margin: auto;
+    text-shadow:
+        -1px -1px 1em var(--white-color),
+        1px -1px 1em var(--white-color),
+        -1px 1px 1em var(--white-color),
+        1px 1px 1em var(--white-color);
+    font-size: large;
+    color: var(--white-color);
 }
 /* 
     Общие и переиспользуемые стили
