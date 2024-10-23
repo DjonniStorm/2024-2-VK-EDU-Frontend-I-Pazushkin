@@ -43,6 +43,13 @@
     margin: auto;
 }
 
+.chat__contact {
+    max-width: 10ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .chat__messages-layout {
     flex-grow: 1;
     display: flex;
@@ -137,7 +144,6 @@
 }
 
 .contacts__header-username {
-    flex-grow: 1;
     padding: 10px;
     display: flex;
     align-items: center;
@@ -162,22 +168,31 @@
     align-items: center;
 }
 
-.contacts__header-search:hover .contacts__header-search__input {
-    width: 250px;
-    border: 2px solid var(--black-color);
-}
-
 .contacts__header-search__input {
     width: 100%;
     border-radius: 5px;
     padding: 5px;
     border-color: var(--black-transparent-color);
-    transition: width .4s ease;
 }
 
 .contacts__header-search__input:focus {
-    width: 250px;
     border: 2px solid var(--black-color);
+}
+
+@media (min-width: 600px) {
+    .contacts__header-search__input {
+        transition: width .4s ease;
+    }
+
+    .contacts__header-search:hover .contacts__header-search__input {
+        width: 250px;
+        border: 2px solid var(--black-color);
+    }
+
+    .contacts__header-search__input:focus {
+        width: 250px;
+        border: 2px solid var(--black-color);
+    }
 }
 
 .contacts__list {
