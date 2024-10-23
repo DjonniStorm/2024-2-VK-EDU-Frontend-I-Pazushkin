@@ -144,6 +144,7 @@
 }
 
 .contacts__header-username {
+    flex-grow: 1;
     padding: 10px;
     display: flex;
     align-items: center;
