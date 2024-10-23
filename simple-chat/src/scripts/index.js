@@ -55,7 +55,7 @@ backToChatList.addEventListener('click', handleArrowBack);
 // handlers
 
 function handleArrowBack() {
-  history.replaceState(null, '', '/');
+  history.replaceState(null, '', `${githubRepo}`);
   saveToLocalStorage();
   render();
 }
@@ -221,7 +221,7 @@ function renderChats(searchKey = '') {
 }
 
 function handleChatRoute(id) {
-  history.replaceState(null, '', `?${QUERY_CHAT}=${id}`);
+  history.replaceState(null, '', `${githubRepo}?${QUERY_CHAT}=${id}`);
   render();
 }
 
