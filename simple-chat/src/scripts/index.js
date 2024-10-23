@@ -14,8 +14,14 @@ import {
   input,
   form,
 } from './nodes';
+import {
+  chatStorage,
+  QUERY_CHAT,
+  githubRepo,
+  changeUser,
+  user,
+} from './globals';
 import { getFromLocalStorage, saveToLocalStorage } from './localStorage';
-import { chatStorage, QUERY_CHAT, changeUser, user } from './globals';
 import { Message } from '../entities/Message';
 import { Chat } from '../entities/Chat';
 import '../styles/personal-chat.css';
@@ -24,11 +30,7 @@ import '../styles/index.css';
 
 //event listeners
 document.addEventListener('DOMContentLoaded', () => {
-  history.replaceState(
-    null,
-    '',
-    `/DjonniStorm/2024-2-VK-EDU-Frontend-I-Pazushkin/`,
-  );
+  history.replaceState(null, '', `${githubRepo}`);
   getFromLocalStorage();
   handleAddUser(user);
   render();
@@ -90,9 +92,17 @@ function handleCreateChat() {
 
     if (confirmUpd) {
       chatStorage.addChat(`${newChatName}2`);
-      history.replaceState(null, '', `?${QUERY_CHAT}=${newChatName}2`);
+      history.replaceState(
+        null,
+        '',
+        `${githubRepo}?${QUERY_CHAT}=${newChatName}2`,
+      );
     } else {
-      history.replaceState(null, '', `?${QUERY_CHAT}=${newChatName}`);
+      history.replaceState(
+        null,
+        '',
+        `${githubRepo}?${QUERY_CHAT}=${newChatName}`,
+      );
     }
 
     handleAddUser();
@@ -103,7 +113,7 @@ function handleCreateChat() {
   }
 
   chatStorage.addChat(`${newChatName}`);
-  history.replaceState(null, '', `?${QUERY_CHAT}=${newChatName}`);
+  history.replaceState(null, '', `${githubRepo}?${QUERY_CHAT}=${newChatName}`);
   render();
   handleAddUser();
 }
