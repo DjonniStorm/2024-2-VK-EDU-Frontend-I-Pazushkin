@@ -12,4 +12,4 @@ export const LOCAL_STORAGE_KEY = 'chat-messages';
 
 export const QUERY_CHAT = 'chatID';
 
-export const githubRepo = '/DjonniStorm/2024-2-VK-EDU-Frontend-I-Pazushkin/';
+export const githubRepo = '/2024-2-VK-EDU-Frontend-I-Pazushkin/';
