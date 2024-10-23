@@ -43,6 +43,13 @@
     margin: auto;
 }
 
+.chat__contact {
+    max-width: 10ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .chat__messages-layout {
     flex-grow: 1;
     display: flex;

@@ -39,7 +39,6 @@ searchButton.addEventListener('click', () => handleSearch);
 
 chatUserName.addEventListener('change', event => {
   const selectedValue = event.target.value;
-  console.log('chna');
 
   changeUser(selectedValue);
   render();
@@ -58,11 +57,11 @@ function handleArrowBack() {
 function handleAddUser(first) {
   chatUserName.innerHTML = '';
 
-  if (first) {
+  if (first && chatStorage.getAllUsers().next().done) {
     const option = document.createElement('option');
 
     option.value = first;
-    option.textContent = first;
+    option.textContent = first.toString().substring(0, 10);
     chatUserName.appendChild(option);
 
     return;
@@ -72,7 +71,7 @@ function handleAddUser(first) {
     const prevOption = document.createElement('option');
 
     prevOption.value = i;
-    prevOption.textContent = i;
+    prevOption.textContent = i.toString().substring(0, 10);
     chatUserName.appendChild(prevOption);
   }
 }
@@ -94,6 +93,7 @@ function handleCreateChat() {
     }
 
     handleAddUser();
+    saveToLocalStorage();
     render();
 
     return;
@@ -128,7 +128,6 @@ function handleKeyPress(event) {
   }
 
   if (event.keyCode === 27) {
-    console.log('escape');
     handleArrowBack();
   }
 }
@@ -159,12 +158,6 @@ function makeNoneAndVis(visiblePage) {
 
 function render() {
   const urlParams = new URL(window.location.href);
-
-  console.log(urlParams.search, urlParams.searchParams.get(QUERY_CHAT));
-  console.log(
-    chatStorage._users,
-    chatStorage.containsChat(urlParams.searchParams.get(QUERY_CHAT)),
-  );
 
   if (!urlParams.search) {
     renderChats();
@@ -197,7 +190,6 @@ function render() {
 
 function renderChats(searchKey = '') {
   chatsLayout.innerHTML = '';
-  console.log('chats clear');
 
   for (const chat of chatStorage.getChats(user)) {
     const [contact, msgs] = chat;
@@ -236,7 +228,6 @@ function renderMessages(isNewUpd) {
 
     if (nextItem.done && isNewUpd) {
       isNew = true;
-      console.log('Это последний элемент');
     }
 
     messages.prepend(
