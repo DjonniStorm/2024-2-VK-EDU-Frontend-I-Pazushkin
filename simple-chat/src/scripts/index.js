@@ -60,15 +60,17 @@ function handleArrowBack() {
   render();
 }
 
-function handleAddUser(first) {
+function handleAddUser(first = '') {
   chatUserName.innerHTML = '';
-  // debugger;
+  debugger;
 
-  const option = document.createElement('option');
+  if (first) {
+    const option = document.createElement('option');
 
-  option.value = first;
-  option.textContent = first.toString().substring(0, 10);
-  chatUserName.prepend(option);
+    option.value = first;
+    option.textContent = first.toString().substring(0, 10);
+    chatUserName.prepend(option);
+  }
 
   for (const i of chatStorage.getAllUsers()) {
     if (!(first === i)) {
