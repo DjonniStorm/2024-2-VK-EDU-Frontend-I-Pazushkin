@@ -24,7 +24,11 @@ import '../styles/index.css';
 
 //event listeners
 document.addEventListener('DOMContentLoaded', () => {
-  history.replaceState(null, '', `/`);
+  history.replaceState(
+    null,
+    '',
+    `/DjonniStorm/2024-2-VK-EDU-Frontend-I-Pazushkin/`,
+  );
   getFromLocalStorage();
   handleAddUser(user);
   render();
@@ -56,23 +60,22 @@ function handleArrowBack() {
 
 function handleAddUser(first) {
   chatUserName.innerHTML = '';
+  // debugger;
 
-  if (first && chatStorage.getAllUsers().next().done) {
-    const option = document.createElement('option');
+  const option = document.createElement('option');
 
-    option.value = first;
-    option.textContent = first.toString().substring(0, 10);
-    chatUserName.appendChild(option);
-
-    return;
-  }
+  option.value = first;
+  option.textContent = first.toString().substring(0, 10);
+  chatUserName.prepend(option);
 
   for (const i of chatStorage.getAllUsers()) {
-    const prevOption = document.createElement('option');
+    if (!(first === i)) {
+      const prevOption = document.createElement('option');
 
-    prevOption.value = i;
-    prevOption.textContent = i.toString().substring(0, 10);
-    chatUserName.appendChild(prevOption);
+      prevOption.value = i;
+      prevOption.textContent = i.toString().substring(0, 10);
+      chatUserName.appendChild(prevOption);
+    }
   }
 }
 
