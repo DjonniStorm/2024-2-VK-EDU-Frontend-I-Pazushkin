@@ -5,7 +5,7 @@ export const input = document.querySelector('.chat__form-input');
 export const messages = document.querySelector('.chat__messages-layout');
 
 export const chatUserName = document.querySelector(
-  '.contacts__header-username',
+  '.contacts__header-username-select',
 );
 
 export const chatName = document.querySelector('.chat__contact');
@@ -16,7 +16,7 @@ export const buttonCreate = document.querySelector(
 
 export const chatsLayout = document.querySelector('.contacts__list');
 
-export const incorrect = document.querySelector('.incorrect');
+export const blankPage = document.querySelector('.incorrect');
 
 export const contactsPage = document.querySelector('.contacts');
 

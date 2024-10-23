@@ -1,123 +1,165 @@
 import { user } from '../scripts/globals';
 import { Message } from './Message';
+import { Colors } from './Colors';
 
 export class Storage {
   constructor() {
-    this._date = new Date();
-    this._buffer = [];
-    this._storage = new Map();
+    this._users = {};
     this._chatKey = '';
+    this._unnesesaryAdditions = new Colors();
   }
+  #updateMessages(text, userFrom, userTo, sender) {
+    const timeStamp = new Date().toLocaleTimeString().substring(0, 5);
 
-  receiveMessage(key, message) {
-    if (this._storage.get(key)) {
-      const prev = this._storage.get(key);
+    if (this._users[userFrom] && this._users[userFrom].get(userTo)) {
+      const prev = this._users[userFrom].get(userTo);
 
-      this._storage.delete(key);
+      this._users[userFrom].delete(userTo);
+      prev.push(new Message(text, timeStamp, sender));
+      this._users[userFrom].set(userTo, prev);
 
-      prev.push(
-        new Message(
-          message,
-          this._date.toLocaleTimeString().substring(0, 5),
-          key,
-        ),
-      );
-      this._storage.set(key, prev);
+      return;
     }
+
+    this._users[userFrom].set(this._chatKey, [
+      new Message(text, timeStamp, sender),
+    ]);
+  }
+  #updateChats(user1, user2) {
+    const prev = this._users[user1];
+
+    if (prev.get(user2)) {
+      return;
+    }
+
+    prev.set(user2, []);
+
+    this._users[user1] = prev;
   }
 
-  *getChats(chat = '') {
-    if (!chat) {
-      for (const [key, value] of this._storage) {
-        yield [key, value];
-      }
-    } else {
-      for (const [key, value] of this._storage) {
-        if (key.startsWith(chat)) {
-          yield [key, value];
+  updateFromStorage(obj) {
+    const upd = {};
+
+    for (const [userName, chats] of Object.entries(obj)) {
+      const userMap = new Map();
+
+      if (typeof chats === 'object' && !Array.isArray(chats)) {
+        for (const [contact, messages] of Object.entries(chats)) {
+          userMap.set(contact, messages);
         }
+      } else {
+        userMap.set(userName, chats);
       }
-    }
-  }
 
-  saveBuffer() {
-    const prev = this._storage.get(this._chatKey);
-
-    this._storage.delete(this._chatKey);
-
-    this._buffer.forEach(elem => prev.push(elem));
-
-    this._storage.set(this._chatKey, prev);
-
-    this._buffer = [];
-  }
-
-  *getMessages() {
-    if (this._storage.get(this._chatKey)) {
-      for (const message of this._storage.get(this._chatKey)) {
-        yield message;
-      }
+      upd[userName] = userMap;
     }
 
-    for (const chat of this._buffer) {
-      yield chat;
+    this._users = upd;
+  }
+
+  addChat(chatWith) {
+    this._chatKey = chatWith;
+
+    if (this._users[user]) {
+      this.#updateChats(user, chatWith);
+    } else {
+      this._unnesesaryAdditions.newUser(user);
+
+      this._users[user] = new Map().set(chatWith, []);
+    }
+
+    if (this._users[chatWith]) {
+      this.#updateChats(chatWith, user);
+    } else {
+      this._unnesesaryAdditions.newUser(chatWith);
+
+      this._users[chatWith] = new Map().set(user, []);
     }
   }
 
   stringify() {
-    const map = {};
+    const serializableUsers = {};
 
-    for (const [key, value] of this._storage.entries()) {
-      map[key] = value;
+    for (const [userName, chats] of Object.entries(this._users)) {
+      serializableUsers[userName] = {};
+
+      for (const [chatUser, messages] of chats) {
+        serializableUsers[userName][chatUser] = messages;
+      }
     }
 
-    return map;
+    return serializableUsers;
   }
 
-  addMessage(text) {
-    this._buffer.push(
-      new Message(text, this._date.toLocaleTimeString().substring(0, 5), user),
+  *getMessages() {
+    if (!this._users[user]) {
+      return;
+    }
+
+    const messages = this._users[user].get(this._chatKey);
+
+    if (!messages) {
+      return;
+    }
+
+    for (const message of messages) {
+      yield message;
+    }
+  }
+  addMessage(messageText) {
+    this.#updateMessages(
+      messageText, //text
+      user, //userFrom
+      this._chatKey, //userTO
+      user, //sender
     );
+    this.#updateMessages(messageText, this._chatKey, user, user);
   }
-
-  updateFromObject(obj) {
-    for (const [key, value] of Object.entries(obj)) {
-      this._storage.set(key, value);
+  *getChats() {
+    if (!this._users[user]) {
+      return;
     }
-  }
 
-  addChat(chatName) {
-    this._storage.set(chatName, []);
-    this._chatKey = chatName;
+    for (const [key, value] of this._users[user]) {
+      console.log(key, value);
+      yield [key, value];
+    }
   }
 
   containsChat(chatName) {
-    return this._storage.has(chatName);
+    if (this._users[user] && this._users[user].get(chatName)) {
+      return true;
+    }
+
+    return false;
   }
 
-  isEmpty() {
-    return this._storage.size === 0;
+  *getAllUsers() {
+    for (const user of Object.getOwnPropertyNames(this._users)) {
+      yield user;
+    }
   }
 
-  get randomChat() {
-    const arr = Array.from(this._storage.keys());
-
-    return arr[Math.floor(Math.random() * arr.length)];
+  getUserBgColor(value) {
+    return this._unnesesaryAdditions.getColor(value);
   }
 
-  set chatName(value) {
+  loadColors(value) {
+    this._unnesesaryAdditions.loadColors(value);
+  }
+
+  saveColors() {
+    return this._unnesesaryAdditions.saveColors();
+  }
+
+  addUser() {
+    this._users[user] = new Map();
+  }
+
+  set chatKey(value) {
     this._chatKey = value;
   }
-
-  set buffer(value) {
-    this._buffer = value;
-  }
-
-  get chatName() {
+  get chatKey() {
     return this._chatKey;
-  }
-
-  get buffer() {
-    return this._buffer;
   }
 }

@@ -22,7 +22,22 @@
 .contacts__header-username {
     flex-grow: 1;
     padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.contacts__header-username-select {
+    background: none;
+    border: none;
+
+    font-size: large;
+    background-color: var(--purple-color);
     color: var(--white-color);
+    text-align: center;
+
+    appearance: none;
+    min-width: 5em;
+    padding: 8px;
 }
 
 .contacts__header-search {
@@ -31,9 +46,30 @@
 }
 
 .contacts__header-search__input {
+    width: 100%;
     border-radius: 5px;
     padding: 5px;
     border-color: var(--black-transparent-color);
+}
+
+.contacts__header-search__input:focus {
+    border: 2px solid var(--black-color);
+}
+
+@media (min-width: 600px) {
+    .contacts__header-search__input {
+        transition: width .4s ease;
+    }
+
+    .contacts__header-search:hover .contacts__header-search__input {
+        width: 250px;
+        border: 2px solid var(--black-color);
+    }
+
+    .contacts__header-search__input:focus {
+        width: 250px;
+        border: 2px solid var(--black-color);
+    }
 }
 
 .contacts__list {
@@ -48,6 +84,10 @@
 }
 
 .contacts__list-contact:hover {
+    background-color: var(--black-transparent-color);
+}
+
+.contacts__list-contact:active {
     background-color: var(--black-transparent-color);
 }
 
@@ -79,30 +119,76 @@
     right: 15px;
     width: 80px;
     aspect-ratio: 1 / 1;
-    background-color: #FFD54F;
-    color: #756124;
+    background-color: var(--yellow-color);
+    color: var(--brown-color);
     border-radius: 50%;
-    border: 2px solid black;
-
-    box-shadow: 2px 2px 2px 0 black;
+    border: 2px solid var(--black-color);
+    animation: pulse 2s infinite;
 }
 
-.contacts__create-contact-btn span {
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+    }
+
+    60% {
+        box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+    }
+}
+
+.contacts__create-contact-btn .material-symbols-outlined {
     font-size: 38px;
+    animation: none;
+}
+
+@keyframes draw {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    33% {
+        transform: rotate(-30deg);
+    }
+
+    70% {
+        transform: rotate(20deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 .contacts__create-contact-btn .material-symbols-outlined:hover {
     transform: scale(1.02);
+    animation: draw 2s infinite linear;
 }
 
 .contacts__create-contact-btn:hover {
     cursor: pointer;
     box-shadow: 2px 2px 2px 1px black;
     transform: scale(1.02);
+    animation: none;
 }
 
 .contacts__list-contact-logo {
     min-width: 60px;
     min-height: 60px;
     border-radius: 50%;
+    display: flex;
+}
+
+.contacts__list-contact-logo p {
+    margin: auto;
+    text-shadow:
+        -1px -1px 1em var(--white-color),
+        1px -1px 1em var(--white-color),
+        -1px 1px 1em var(--white-color),
+        1px 1px 1em var(--white-color);
+    font-size: large;
+    color: var(--white-color);
 }

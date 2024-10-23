@@ -63,5 +63,6 @@ module.exports = {
   entry: {
     index: './scripts/index.js',
   },
+  devtool: 'source-map',
   context: SRC_PATH,
 };

@@ -1,85 +1,149 @@
 import {
-  incorrect as blankPage,
   backToChatList,
   buttonCreate,
-  contactsPage,
   chatUserName,
   searchButton,
-  chatsLayout,
+  contactsPage,
   searchInput,
+  chatsLayout,
+  blankPage,
+  chatLogo,
   messages,
   chatPage,
   chatName,
-  chatLogo,
   input,
   form,
 } from './nodes';
-import { loadBuffer, saveBuffer, saveData, loadData } from './storage';
-import { chatStorage, QUERY_CHAT, user } from './globals';
+import {
+  chatStorage,
+  QUERY_CHAT,
+  githubRepo,
+  changeUser,
+  user,
+} from './globals';
+import { getFromLocalStorage, saveToLocalStorage } from './localStorage';
 import { Message } from '../entities/Message';
 import { Chat } from '../entities/Chat';
 import '../styles/personal-chat.css';
 import '../styles/contacts-list.css';
 import '../styles/index.css';
 
+//event listeners
 document.addEventListener('DOMContentLoaded', () => {
-  loadData();
+  history.replaceState(null, '', `${githubRepo}`);
+  getFromLocalStorage();
+  handleAddUser(user);
   render();
-  chatUserName.innerText = user;
-  randomMessages();
 });
-
-function randomMessages() {
-  setInterval(async () => {
-    try {
-      if (chatStorage.isEmpty()) {
-        return;
-      }
-
-      const messageText = await newMessage();
-
-      if (!messageText) {
-        return;
-      }
-
-      saveBuffer();
-      chatStorage.receiveMessage(chatStorage.randomChat, messageText);
-      saveData();
-      render();
-    } catch (e) {
-      console.warn(e);
-    }
-  }, 25000);
-}
 
 form.addEventListener('submit', handleSubmit);
-form.addEventListener('keypress', handleKeyPress);
-buttonCreate.addEventListener('click', () => {
-  const newChatName =
-    prompt('Введите название чата') || user + Math.random().toString();
-  chatStorage.addChat(newChatName);
-  saveData();
-  window.location.href = `?${QUERY_CHAT}=${newChatName}`;
-  render();
-});
-
-backToChatList.addEventListener('click', () => {
-  chatStorage.saveBuffer();
-  saveBuffer();
-  saveData();
-  window.location.href =
-    'https://djonnistorm.github.io/2024-2-VK-EDU-Frontend-I-Pazushkin/';
-  render();
-});
+form.addEventListener('keydown', handleKeyPress);
+buttonCreate.addEventListener('click', handleCreateChat);
 
 searchInput.addEventListener('input', handleSearch);
 searchButton.addEventListener('click', () => handleSearch);
 
+chatUserName.addEventListener('change', event => {
+  const selectedValue = event.target.value;
+
+  changeUser(selectedValue);
+  render();
+});
+
+backToChatList.addEventListener('click', handleArrowBack);
+
+// handlers
+
+function handleArrowBack() {
+  history.replaceState(null, '', `${githubRepo}`);
+  saveToLocalStorage();
+  render();
+}
+
+function handleAddUser(first = '') {
+  chatUserName.innerHTML = '';
+  // debugger;
+
+  if (first) {
+    const option = document.createElement('option');
+
+    option.value = first;
+    option.textContent = first.toString().substring(0, 10);
+    chatUserName.prepend(option);
+  }
+
+  for (const i of chatStorage.getAllUsers()) {
+    if (!(first === i)) {
+      const prevOption = document.createElement('option');
+
+      prevOption.value = i;
+      prevOption.textContent = i.toString().substring(0, 10);
+      chatUserName.appendChild(prevOption);
+    }
+  }
+}
+
+function handleCreateChat() {
+  const newChatName =
+    prompt('Введите название чата') || user + Math.random().toString();
+
+  if (newChatName === user || chatStorage.containsChat(newChatName)) {
+    const confirmUpd = confirm(
+      `Такой чат уже существует, создать чат: ${newChatName}2?`,
+    );
+
+    if (confirmUpd) {
+      chatStorage.addChat(`${newChatName}2`);
+      history.replaceState(
+        null,
+        '',
+        `${githubRepo}?${QUERY_CHAT}=${newChatName}2`,
+      );
+    } else {
+      history.replaceState(
+        null,
+        '',
+        `${githubRepo}?${QUERY_CHAT}=${newChatName}`,
+      );
+    }
+
+    handleAddUser();
+    saveToLocalStorage();
+    render();
+
+    return;
+  }
+
+  chatStorage.addChat(`${newChatName}`);
+  history.replaceState(null, '', `${githubRepo}?${QUERY_CHAT}=${newChatName}`);
+  render();
+  handleAddUser();
+}
+
 function handleSearch() {
-  if (searchInput.value) {
-    renderChats(searchInput.value);
-  } else {
-    renderChats();
+  renderChats(searchInput.value);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+
+  if (input.value.trim()) {
+    chatStorage.addMessage(input.value);
+    renderMessages(true);
+    saveToLocalStorage();
+    input.value = '';
+  }
+}
+
+function handleKeyPress(event) {
+  console.log(event.keyCode);
+
+  if (event.keyCode === 13) {
+    form.dispatchEvent(new Event('submit'));
+  }
+
+  if (event.keyCode === 27) {
+    handleArrowBack();
   }
 }
 
@@ -89,41 +153,21 @@ const displayOptions = {
   blank: 3,
 };
 
-function makeNoneAndVis(currentVisible) {
+function makeNoneAndVis(visiblePage) {
   contactsPage.classList.add('none');
   blankPage.classList.add('none');
   chatPage.classList.add('none');
 
-  switch (currentVisible) {
-    case displayOptions.chats:
-      contactsPage.classList.remove('none');
-      break;
+  switch (visiblePage) {
     case displayOptions.messages:
       chatPage.classList.remove('none');
+      break;
+    case displayOptions.chats:
+      contactsPage.classList.remove('none');
       break;
     case displayOptions.blank:
       blankPage.classList.remove('none');
       break;
-  }
-
-  console.log(chatStorage._storage);
-}
-
-function handleSubmit(event) {
-  event.preventDefault();
-
-  if (input.value.trim()) {
-    chatStorage.addMessage(input.value);
-    saveBuffer();
-    loadBuffer();
-    input.value = '';
-    renderMessages();
-  }
-}
-
-function handleKeyPress(event) {
-  if (event.keyCode === 13) {
-    form.dispatchEvent(new Event('submit'));
   }
 }
 
@@ -137,70 +181,79 @@ function render() {
     return;
   }
 
-  if (chatStorage.containsChat(urlParams.searchParams.get(QUERY_CHAT))) {
-    chatName.innerText = urlParams.searchParams.get(QUERY_CHAT);
-    chatLogo.style.background = `url("https://i.pravatar.cc/60?random=${Math.random()})`;
-    chatStorage.chatName = urlParams.searchParams.get(QUERY_CHAT);
+  const userName = urlParams.searchParams.get(QUERY_CHAT);
+
+  if (chatStorage.containsChat(userName)) {
+    //chat
+    chatName.innerText = userName;
+    chatStorage.chatKey = userName;
+
+    chatLogo.style.backgroundColor = chatStorage.getUserBgColor(userName);
+
+    chatLogo.innerHTML = `<p>${userName.charAt(0)}</p>`;
+
     makeNoneAndVis(displayOptions.messages);
+
     renderMessages();
 
     return;
   }
+  //error page
 
   makeNoneAndVis(displayOptions.blank);
 }
 
-function renderMessages() {
-  loadData();
+function renderChats(searchKey = '') {
+  chatsLayout.innerHTML = '';
+
+  for (const chat of chatStorage.getChats(user)) {
+    const [contact, msgs] = chat;
+
+    if ((searchKey && contact.startsWith(searchKey)) || !searchKey) {
+      const div = Chat.render(
+        contact,
+        msgs.length > 0 ? msgs[msgs.length - 1]._text : 'пусто...',
+        msgs.length > 0 ? msgs[msgs.length - 1]._date : ' ',
+        chatStorage.getUserBgColor(contact),
+      );
+      div.addEventListener('click', () => handleChatRoute(contact));
+      chatsLayout.prepend(div);
+    }
+  }
+}
+
+function handleChatRoute(id) {
+  history.replaceState(null, '', `${githubRepo}?${QUERY_CHAT}=${id}`);
+  render();
+}
+
+function renderMessages(isNewUpd) {
   messages.innerHTML = '';
 
-  for (const message of chatStorage.getMessages()) {
-    const { _text, _date, _from } = message;
+  const messagesIterator = chatStorage.getMessages();
+
+  let item = messagesIterator.next();
+
+  while (!item.done) {
+    const { _text, _date, _from } = item.value;
+
+    const nextItem = messagesIterator.next();
+
+    let isNew = false;
+
+    if (nextItem.done && isNewUpd) {
+      isNew = true;
+    }
 
     messages.prepend(
       Message.render(
         _text,
         _date,
         _from,
+        isNew,
         _from === user ? 'sent-message' : undefined,
       ),
     );
-  }
-}
-
-function renderChats(nessesaryChat = '') {
-  chatsLayout.innerHTML = '';
-
-  for (const chat of chatStorage.getChats(nessesaryChat)) {
-    const [contact, msgs] = chat;
-
-    const div = Chat.render(
-      contact,
-      msgs.length > 0 ? msgs[msgs.length - 1]._text : 'пусто...',
-      msgs.length > 0 ? msgs[msgs.length - 1]._date : ' ',
-    );
-    div.addEventListener('click', () => handleChatRoute(contact));
-    chatsLayout.prepend(div);
-  }
-}
-
-function handleChatRoute(contact) {
-  saveBuffer();
-  window.location.href = `?${QUERY_CHAT}=${contact}`;
-  render();
-}
-
-async function newMessage() {
-  try {
-    const req = await fetch('https://fish-text.ru/get?format=json');
-    const data = await req.json();
-
-    if (data.status == 'success') {
-      return data.text;
-    }
-
-    return '';
-  } catch (e) {
-    throw new Error(e.message);
+    item = nextItem;
   }
 }
