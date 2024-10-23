@@ -62,7 +62,7 @@ function handleArrowBack() {
 
 function handleAddUser(first = '') {
   chatUserName.innerHTML = '';
-  debugger;
+  // debugger;
 
   if (first) {
     const option = document.createElement('option');
