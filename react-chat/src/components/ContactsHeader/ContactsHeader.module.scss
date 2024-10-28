@@ -1,0 +1,20 @@
+@import '../../index.scss';
+.contacts__header {
+  width: 100%;
+  padding: 0 20px;
+  background-color: $purple-color;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  &-username {
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  &-search {
+    display: flex;
+    align-items: center;
+  }
+}

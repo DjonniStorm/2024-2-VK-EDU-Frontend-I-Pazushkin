@@ -1,17 +1,23 @@
-import { SelectHTMLAttributes } from 'react';
+import { ChangeEvent, SelectHTMLAttributes } from 'react';
+import styles from './UserSelect.module.scss';
 
 export const UserSelect = ({
   options,
-  func,
+  onUserChange,
   ...args
 }: SelectHTMLAttributes<HTMLSelectElement> & {
   options: string[];
-  func: (option: string) => void;
+  onUserChange: (option: string) => void;
 }) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value);
+    onUserChange(e.target.value);
+  };
+
   return (
-    <select {...args}>
+    <select {...args} onChange={handleChange} className={styles['select']}>
       {options.map(elem => (
-        <option key={elem} onSelect={() => func(elem)}>
+        <option key={elem} value={elem}>
           {elem}
         </option>
       ))}

@@ -1,0 +1,15 @@
+@import '../../index.scss';
+
+.select {
+  background: none;
+  border: none;
+
+  font-size: large;
+  background-color: $purple-color;
+  color: $white-color;
+  text-align: center;
+
+  appearance: none;
+  min-width: 5em;
+  padding: 8px;
+}
