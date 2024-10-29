@@ -1,0 +1,40 @@
+@import '../../index.scss';
+
+.chat__header {
+  width: 100%;
+  background-color: $purple-color;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  &-transition {
+    display: flex;
+    gap: 30px;
+  }
+  &-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $white-color;
+    user-select: none;
+    &-logo {
+      width: 3em;
+      height: 3em;
+      border-radius: 50%;
+      background-color: black-transparent-color;
+      border: 2px solid $white-color;
+      display: flex;
+      &-letter {
+        margin: auto;
+      }
+    }
+    &-status {
+      &-contact {
+        max-width: 10ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

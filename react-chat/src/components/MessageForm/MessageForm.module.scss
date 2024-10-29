@@ -1,0 +1,19 @@
+@import '../../index.scss';
+
+.form {
+  width: 100%;
+  display: flex;
+  background-color: $white-color;
+  border-top: 1px solid $black-color;
+  align-items: center;
+  &-input {
+    flex-grow: 1;
+    margin-left: 10px;
+    border: 0;
+    outline: none;
+    &::placeholder {
+      font-size: medium;
+      padding-left: 10px;
+    }
+  }
+}

@@ -5,4 +5,9 @@
   height: 100vh;
   background-color: $black-transparent-color;
   overflow: hidden;
+
+  &__list {
+    overflow-y: auto;
+    height: calc(100% - 50px);
+  }
 }

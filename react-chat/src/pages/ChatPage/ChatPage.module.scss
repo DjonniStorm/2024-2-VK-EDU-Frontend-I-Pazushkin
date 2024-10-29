@@ -1,0 +1,36 @@
+@import '../../index.scss';
+
+.chat {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $black-transparent-color;
+
+  &__messages-layout {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 5px;
+    padding: 20px;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  &__form {
+    width: 100%;
+    display: flex;
+    background-color: $white-color;
+    border-top: 1px solid $black-color;
+    align-items: center;
+    &-input {
+      flex-grow: 1;
+      margin-left: 10px;
+      border: 0;
+      outline: none;
+      &::placeholder {
+        font-size: medium;
+        padding-left: 10px;
+      }
+    }
+  }
+}

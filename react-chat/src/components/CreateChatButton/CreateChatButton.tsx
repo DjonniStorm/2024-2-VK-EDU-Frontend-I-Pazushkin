@@ -1,14 +1,17 @@
 import { ButtonHTMLAttributes } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
-import style from './CreateChatButton.scss';
+import styles from './CreateChatButton.module.scss';
 
 export const CreateChatButton = ({
   func,
   ...args
 }: ButtonHTMLAttributes<HTMLButtonElement> & { func: () => void }) => {
   return (
-    <button {...args} onClick={func} className={style['1']}>
-      <CreateIcon />
+    <button {...args} onClick={func} className={styles['create-contact-btn']}>
+      <CreateIcon
+        sx={{ fontSize: '38px' }}
+        className={styles['create-contact-btn-icon']}
+      />
     </button>
   );
 };
