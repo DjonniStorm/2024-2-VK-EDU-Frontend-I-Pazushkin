@@ -1,19 +1,16 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton } from '../IconButton/IconButton';
 import { UserSelect } from '../UserSelect/UserSelect';
-import { Input } from '../SearchInput/SearchInput';
+import { SearchInput } from '../SearchInput/SearchInput';
 import styles from './ContactsHeader.module.scss';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
 
 export const ContactsHeader = () => {
-  const [inputValue, setInputValue] = useState<string>('');
   const onUserChange = (option: string) => {
     console.log('user changed', option);
   };
 
   const onInputValueChanged = (value: string) => {
-    setInputValue(value);
     console.log(value);
   };
   return (
@@ -29,7 +26,7 @@ export const ContactsHeader = () => {
         />
       </div>
       <div className={styles['contacts__header-search']}>
-        <Input
+        <SearchInput
           placeholder="Поиск чатов"
           className={styles['contacts__header-search-input']}
           onValueChange={onInputValueChanged}

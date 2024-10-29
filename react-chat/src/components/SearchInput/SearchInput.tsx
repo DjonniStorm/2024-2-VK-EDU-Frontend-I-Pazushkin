@@ -3,7 +3,6 @@ import { ChangeEvent, InputHTMLAttributes } from 'react';
 export const SearchInput = ({
   onValueChange,
   placeholder,
-  type,
   className,
   ...args
 }: {
@@ -20,7 +19,6 @@ export const SearchInput = ({
       className={className}
       onChange={onChange}
       placeholder={placeholder}
-      type={type}
       autoComplete="on"
       spellCheck="true"
     />
