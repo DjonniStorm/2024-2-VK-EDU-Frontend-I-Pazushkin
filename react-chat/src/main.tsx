@@ -5,9 +5,9 @@ import { App } from './App.tsx';
 import { ChatProvider } from './chatProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ChatProvider>
-      <App />
-    </ChatProvider>
-  </StrictMode>,
+  // <StrictMode>
+  <ChatProvider>
+    <App />
+  </ChatProvider>,
+  // </StrictMode>,
 );

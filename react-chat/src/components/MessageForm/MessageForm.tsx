@@ -33,6 +33,7 @@ export const MessageForm = ({
         value={message}
         placeholder={placeholder}
         onChange={onInputChange}
+        name="message-input"
       />
       <IconButton>
         <Attachment />

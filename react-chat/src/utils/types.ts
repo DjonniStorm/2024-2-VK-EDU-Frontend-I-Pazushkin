@@ -1,19 +1,20 @@
+import { ReactNode } from 'react';
+
 export interface Message {
   text: string;
   timestamp: string;
   sender: string;
 }
 
+export type NEED_TO_CHANGE_NAME = ReactNode;
+
 export interface UserChats {
   [username: string]: Map<string, Message[]>;
 }
 
 export interface ChatContextType {
-  users: UserChats;
-  currentUser: string | null;
-  setCurrentUser: (user: string) => void;
-  addChat: (chatWith: string) => void;
+  createChat: (chatName: string) => void;
   addMessage: (messageText: string) => void;
-  getMessages: (chatWith: string) => Message[];
-  getChats: () => UserChats;
+  setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
+  containsChat: (userName: string) => boolean;
 }
