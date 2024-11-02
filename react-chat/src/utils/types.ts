@@ -17,4 +17,10 @@ export interface ChatContextType {
   addMessage: (messageText: string) => void;
   setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
   containsChat: (userName: string) => boolean;
+  setChatKey: React.Dispatch<React.SetStateAction<string>>;
+  display: number;
+  setDisplay: React.Dispatch<React.SetStateAction<number>>;
+  getMessages: () => Message[] | undefined;
+  chatKey: string;
+  getChats: () => Map<string, Message[]>;
 }

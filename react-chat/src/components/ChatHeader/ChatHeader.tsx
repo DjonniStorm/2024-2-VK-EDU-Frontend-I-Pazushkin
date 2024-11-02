@@ -2,11 +2,17 @@ import { ArrowBack, MoreVert, Search } from '@mui/icons-material';
 import { IconButton } from '../IconButton/IconButton';
 import styles from './ChatHeader.module.scss';
 
-export const ChatHeader = ({ contact }: { contact: string }) => {
+export const ChatHeader = ({
+  contact,
+  arrowBackClick,
+}: {
+  contact: string;
+  arrowBackClick: () => void;
+}) => {
   return (
     <div className={styles['chat__header']}>
       <div className={styles['chat__header-transition']}>
-        <IconButton isHeader title="Назад">
+        <IconButton isHeader title="Назад" onClick={arrowBackClick}>
           <ArrowBack />
         </IconButton>
         <div className={styles['chat__header-info']}>

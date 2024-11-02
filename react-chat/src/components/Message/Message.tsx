@@ -9,7 +9,7 @@ export const Message = ({
   date: string;
   from: string;
   isNew?: boolean;
-  classList: string;
+  classList?: string;
 }) => {
   return (
     <div className={`${classList} ${isNew ? 'new-message' : ''}`}>

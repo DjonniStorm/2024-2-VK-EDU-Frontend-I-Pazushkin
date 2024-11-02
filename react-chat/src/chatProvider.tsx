@@ -2,15 +2,20 @@ import { ReactNode, useEffect, useState } from 'react';
 import { Message, UserChats } from './utils/types';
 import { ChatContext } from './utils/context';
 import { changeUrl } from './utils/urlChange';
+import { displayOptions } from './utils/consts';
 
 export const ChatProvider = ({ children }: { children: ReactNode }) => {
   const [store, setStore] = useState<{
     [user: string]: Map<string, Message[]>;
   }>({});
   const [chatKey, setChatKey] = useState<string>(() => '');
-  const [currentUser, setCurrentUser] = useState<string>('');
+  const [currentUser, setCurrentUser] = useState<string>(() => '');
+
+  const [display, setDisplay] = useState(() => displayOptions.contacts);
 
   useEffect(() => {
+    changeUrl({});
+
     let user = prompt('Введите имя пользователя') || Math.random().toString();
     setCurrentUser(user);
     if (!store[user]) {
@@ -23,18 +28,15 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
 
   const handleCreateChat = (name: string) => {
     console.log(name);
+
     setStore(chats => ({
       ...chats,
       [currentUser]: new Map<string, Message[]>().set(name, []),
+      [name]: new Map<string, Message[]>().set(currentUser, []),
     }));
 
+    setDisplay(displayOptions.chat);
     changeUrl({ params: name });
-
-    log(store);
-  };
-
-  const log = function () {
-    console.log(arguments);
   };
 
   const handleAddMessage = ({
@@ -49,6 +51,8 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     sender: string;
   }) => {
     const timestamp = new Date().toLocaleTimeString();
+
+    console.log(text, from, to, sender, store);
 
     setStore(stor => {
       const newStore = { ...stor };
@@ -75,8 +79,10 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     setCurrentUser(userName);
   };
 
-  const containsChat = (userName: string) =>
-    typeof store[userName] !== 'undefined';
+  const containsChat = (userName: string) => {
+    console.log(store);
+    return typeof store[userName] !== 'undefined';
+  };
 
   const createChat = (chatName: string) => {
     while (store[chatName]) {
@@ -92,7 +98,12 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     }
     handleCreateChat(chatName);
     setChatKey(chatName);
+    console.log(store);
   };
+
+  const getMessages = () => store[currentUser].get(chatKey);
+
+  const getChats = () => store[currentUser];
 
   const addMessage = (messageText: string) => {
     handleAddMessage({
@@ -116,6 +127,12 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         addMessage,
         setCurrentUser,
         containsChat,
+        setChatKey,
+        display,
+        setDisplay,
+        getMessages,
+        chatKey,
+        getChats,
       }}
     >
       {children}
