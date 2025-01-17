@@ -1,0 +1,55 @@
+@import '../../index.scss';
+
+.contact {
+  display: flex;
+  padding: 1em;
+  align-items: center;
+  &:hover {
+    background-color: $black-transparent-color;
+  }
+  &:active {
+    background-color: $black-transparent-color;
+  }
+  &__logo {
+    min-width: 60px;
+    min-height: 60px;
+    border-radius: 50%;
+    display: flex;
+    &-text {
+      margin: auto;
+      text-shadow:
+        -1px -1px 1em $white-color,
+        1px -1px 1em $white-color,
+        -1px 1px 1em $white-color,
+        1px 1px 1em $white-color;
+      font-size: large;
+      color: $white-color;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 2em;
+    width: 80%;
+    flex-direction: column;
+    border-bottom: 2px solid $black-transparent-color;
+    &-name {
+      color: $black-color;
+    }
+    &-last-msg {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      &-text {
+        flex-grow: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      &-time {
+        color: $black-color;
+      }
+    }
+  }
+}

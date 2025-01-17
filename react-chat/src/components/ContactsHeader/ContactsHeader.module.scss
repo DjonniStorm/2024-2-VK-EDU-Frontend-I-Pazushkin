@@ -1,0 +1,45 @@
+@import '../../index.scss';
+
+.contacts__header {
+  width: 100%;
+  padding: 0 20px;
+  background-color: $purple-color;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  &-username {
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  &-search {
+    display: flex;
+    align-items: center;
+    &-input {
+      width: 100%;
+      border-radius: 5px;
+      padding: 5px;
+      border-color: $black-transparent-color;
+
+      &:focus {
+        border: 2px solid $black-color;
+      }
+
+      @media (min-width: 600px) {
+        transition: width 0.4s ease;
+
+        &:hover {
+          width: 250px;
+          border: 2px solid $black-color;
+        }
+
+        &:focus {
+          width: 250px;
+          border: 2px solid $black-color;
+        }
+      }
+    }
+  }
+}

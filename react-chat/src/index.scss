@@ -1,0 +1,39 @@
+$purple-color: #8e24aa;
+$black-color: rgba(0, 0, 0, 0.87);
+$black-transparent-color: rgba(0, 0, 0, 0.08);
+$white-color: #fff;
+$sent-message: #f3e5f5;
+$received-message: #fff;
+$yellow-color: #ffd54f;
+$brown-color: #756124;
+
+body {
+  font-size: 15px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.button {
+  background: none;
+  border: none;
+  background-color: none;
+  font-size: 40px;
+  padding: 5px;
+}
+
+.header-button {
+  color: $white-color;
+}
